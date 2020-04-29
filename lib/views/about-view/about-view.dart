@@ -106,6 +106,42 @@ class AboutView extends StatelessWidget {
                       height: 16,
                     ),
                     Text(
+                      'Terms and Conditions',
+                      style: Styles.of(context)
+                          .textStyle
+                          .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    AdaptiveButton(
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            EvaIcons.externalLinkOutline,
+                            color: Styles.adaptiveBlueColor,
+                            size: 20,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'Terms',
+                            style: Styles.of(context).textStyle.copyWith(
+                                fontSize: 20, color: Styles.adaptiveBlueColor),
+                          )
+                        ],
+                      ),
+                      onPressed: () async {
+                        const url =
+                            'https://github.com/davebaraka/duino/blob/master/TERMS.md';
+                        if (await canLaunch(url)) await launch(url);
+                      },
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text(
                       'Privacy Policy',
                       style: Styles.of(context)
                           .textStyle
@@ -118,7 +154,7 @@ class AboutView extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            EvaIcons.bookOpenOutline,
+                            EvaIcons.externalLinkOutline,
                             color: Styles.adaptiveBlueColor,
                             size: 20,
                           ),
@@ -133,7 +169,8 @@ class AboutView extends StatelessWidget {
                         ],
                       ),
                       onPressed: () async {
-                        const url = 'https://davebaraka.dev';
+                        const url =
+                            'https://github.com/davebaraka/duino/blob/master/POLICY.md';
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
@@ -158,10 +195,18 @@ class AboutView extends StatelessWidget {
                       height: 16,
                     ),
                     Text(
-                      'Version 0.0.1',
+                      'Version',
                       style: Styles.of(context)
                           .textStyle
                           .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      'v0.0.1',
+                      style:
+                          Styles.of(context).textStyle.copyWith(fontSize: 20),
                     ),
                   ],
                 ),
