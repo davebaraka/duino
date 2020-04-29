@@ -5,9 +5,16 @@ import 'package:duino/routes.dart';
 import 'package:duino/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(App());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(App());
+  });
+}
 
 class App extends StatelessWidget {
   Widget _buildiOS(BuildContext context) {

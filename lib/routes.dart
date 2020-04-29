@@ -16,7 +16,7 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final Map<String, dynamic> args = settings.arguments;
     final String animation = settings.isInitialRoute ? null : args['ANIM'];
-    final dynamic data = settings.isInitialRoute ? null : args['DATA'];
+    //final dynamic data = settings.isInitialRoute ? null : args['DATA'];
 
     switch (settings.name) {
       case '/':

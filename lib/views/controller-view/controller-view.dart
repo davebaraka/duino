@@ -1,4 +1,6 @@
-import 'package:duino/components/adaptive-components/adaptive-button.dart';
+import 'dart:io';
+
+import 'package:duino/components/adaptive-components/adaptive-iconbutton.dart';
 import 'package:duino/components/adaptive-components/adaptive-navbar.dart';
 import 'package:duino/components/adaptive-components/adaptive-scaffold.dart';
 import 'package:duino/components/joystick-component.dart/joystick-component.dart';
@@ -16,7 +18,8 @@ class ControllerView extends StatelessWidget {
         Provider.of<BluetoothProvider>(context, listen: false);
     return AdaptiveScaffold(
         navBar: AdaptiveNavBar(
-          leading: AdaptiveButton(
+          backgroundColor: Styles.of(context).barBackgroundColor,
+          leading: AdaptiveIconButton(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(
@@ -28,9 +31,14 @@ class ControllerView extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          middle: Text('Joystick'),
+          middle: Text(
+            'Joystick',
+            style: Styles.of(context).navTitleTextStyle,
+          ),
           trailing: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+            padding: Platform.isIOS
+                ? const EdgeInsets.fromLTRB(0, 0, 16, 0)
+                : EdgeInsets.only(),
             child: StateComponent(),
           ),
         ),

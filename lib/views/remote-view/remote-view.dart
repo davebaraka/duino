@@ -1,11 +1,15 @@
-import 'package:duino/components/adaptive-components/adaptive-button.dart';
+import 'dart:io';
+
+import 'package:duino/components/adaptive-components/adaptive-iconbutton.dart';
 import 'package:duino/components/adaptive-components/adaptive-navbar.dart';
 import 'package:duino/components/adaptive-components/adaptive-scaffold.dart';
+import 'package:duino/components/adaptive-components/adaptive-widget.dart';
 import 'package:duino/components/state-component.dart';
 import 'package:duino/styles.dart';
 import 'package:duino/views/remote-view/components/button-component.dart';
 import 'package:duino/views/remote-view/providers/remote-provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RemoteView extends StatelessWidget {
@@ -13,7 +17,8 @@ class RemoteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
       navBar: AdaptiveNavBar(
-        leading: AdaptiveButton(
+        elevation: 0,
+        leading: AdaptiveIconButton(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Icon(
@@ -25,34 +30,71 @@ class RemoteView extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        middle: Text('Remote'),
+        backgroundColor: Styles.of(context).barBackgroundColor,
+        middle: Text(
+          'Remote',
+          style: Styles.of(context).navTitleTextStyle,
+        ),
         trailing: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+          padding: Platform.isIOS
+              ? const EdgeInsets.fromLTRB(0, 0, 16, 0)
+              : EdgeInsets.only(),
           child: StateComponent(),
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Consumer<RemoteProvider>(
-              builder: (_, remoteProvider, __) => CupertinoSlidingSegmentedControl(
-                children: {
-                  0: Text(
-                    'Keypad',
-                    style: TextStyle(color: Styles.of(context).textStyle.color),
-                  ),
-                  1: Text('D-pad',
-                      style: TextStyle(color: Styles.of(context).textStyle.color))
-                },
-                onValueChanged: (int value) {
-                  remoteProvider.updateGroupValue(value);
-                },
-                groupValue: remoteProvider.groupValue,
-              ),
-            ),
-            Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Consumer<RemoteProvider>(
+              builder: (_, remoteProvider, __) => AdaptiveWidget(
+                    iOS: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      child: CupertinoSlidingSegmentedControl(
+                        children: {
+                          0: Text(
+                            'Keypad',
+                            style: TextStyle(
+                                color: Styles.of(context).textStyle.color),
+                          ),
+                          1: Text('D-pad',
+                              style: TextStyle(
+                                  color: Styles.of(context).textStyle.color))
+                        },
+                        onValueChanged: (int value) {
+                          remoteProvider.updateGroupValue(value);
+                        },
+                        groupValue: remoteProvider.groupValue,
+                      ),
+                    ),
+                    android: DefaultTabController(
+                      length: 2,
+                      child: TabBar(
+                        indicatorColor: Styles.of(context).textStyle.color,
+                        onTap: (int value) {
+                          remoteProvider.updateGroupValue(value);
+                        },
+                        tabs: [
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              'Keypad',
+                              style: TextStyle(
+                                  color: Styles.of(context).textStyle.color),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('D-pad',
+                                style: TextStyle(
+                                    color: Styles.of(context).textStyle.color)),
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -139,8 +181,8 @@ class RemoteView extends StatelessWidget {
                     )
                   ]),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

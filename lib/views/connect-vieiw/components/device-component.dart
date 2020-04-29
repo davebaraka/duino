@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:duino/components/adaptive-components/adaptive-alertdialog.dart';
-import 'package:duino/components/adaptive-components/adaptive-button.dart';
 import 'package:duino/components/adaptive-components/adaptive-material.dart';
 import 'package:duino/components/adaptive-components/adaptive-theme.dart';
 import 'package:duino/providers/bluetooth-provider.dart';
@@ -28,17 +26,19 @@ class DeviceComponent extends StatelessWidget {
           onTap: () async {
             if (bluetoothProvider.status == ConnectionStatus.DISCONNECTING ||
                 bluetoothProvider.status == ConnectionStatus.CONNECTING) {
-              Platform.isIOS ? await cupertinoWaitingDialog(context) : null;
+              Platform.isIOS
+                  ? await cupertinoWaitingDialog(context)
+                  : androidWaitingDialog(context);
             } else {
               if (bluetoothProvider.bluetoothDevice != null &&
                   this.device.id == bluetoothProvider.bluetoothDevice.id) {
                 Platform.isIOS
                     ? await cupertinoDisconnectDialog(context)
-                    : null;
+                    : androidDisconnectDialog(context);
               } else {
                 Platform.isIOS
                     ? await cupertinoConnectDialog(context, device)
-                    : null;
+                    : androidConnectDialog(context, device);
               }
             }
           },

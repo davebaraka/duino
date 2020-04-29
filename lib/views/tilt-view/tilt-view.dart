@@ -1,4 +1,6 @@
-import 'package:duino/components/adaptive-components/adaptive-button.dart';
+import 'dart:io';
+
+import 'package:duino/components/adaptive-components/adaptive-iconbutton.dart';
 import 'package:duino/components/adaptive-components/adaptive-navbar.dart';
 import 'package:duino/components/adaptive-components/adaptive-scaffold.dart';
 import 'package:duino/components/state-component.dart';
@@ -11,7 +13,8 @@ class TiltView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
         navBar: AdaptiveNavBar(
-          leading: AdaptiveButton(
+          backgroundColor: Styles.of(context).barBackgroundColor,
+          leading: AdaptiveIconButton(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(
@@ -23,9 +26,14 @@ class TiltView extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          middle: Text('Tilt Pad'),
+          middle: Text(
+            'Tilt Pad',
+            style: Styles.of(context).navTitleTextStyle,
+          ),
           trailing: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+            padding: Platform.isIOS
+                ? const EdgeInsets.fromLTRB(0, 0, 16, 0)
+                : EdgeInsets.only(),
             child: StateComponent(),
           ),
         ),

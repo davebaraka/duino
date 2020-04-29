@@ -1,4 +1,5 @@
-import 'package:duino/components/adaptive-components/adaptive-button.dart';
+import 'dart:io';
+
 import 'package:duino/components/adaptive-components/adaptive-customscrollview.dart';
 import 'package:duino/components/adaptive-components/adaptive-navbar.dart';
 import 'package:duino/components/adaptive-components/adaptive-scaffold.dart';
@@ -7,6 +8,7 @@ import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/styles.dart';
 import 'package:duino/views/home-view/components/action-component.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
@@ -33,11 +35,20 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: Styles.of(context).scaffoldBackgroundColor,
       child: AdaptiveCustomScrollView(
           navBar: AdaptiveNavBar(
-              largeTitle: Text('Duino'), trailing: StateComponent()),
+              backgroundColor: Styles.of(context).barBackgroundColor,
+              largeTitle: Text(
+                'Duino',
+                style: Styles.of(context).navLargeTitleTextStyle,
+              ),
+              trailing: StateComponent()),
           child: SliverPadding(
             padding: EdgeInsets.only(left: 16, right: 16),
             sliver: SliverList(
                 delegate: SliverChildListDelegate.fixed([
+              if (Platform.isAndroid)
+                SizedBox(
+                  height: 16,
+                ),
               ActionComponent(
                 title: 'Connect',
                 subtitle: 'Pair a bluetooth module',

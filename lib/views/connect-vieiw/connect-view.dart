@@ -1,5 +1,5 @@
 import 'package:duino/components/adaptive-components/adaptive-activityindicator.dart';
-import 'package:duino/components/adaptive-components/adaptive-button.dart';
+import 'package:duino/components/adaptive-components/adaptive-iconbutton.dart';
 import 'package:duino/components/adaptive-components/adaptive-navbar.dart';
 import 'package:duino/components/adaptive-components/adaptive-scaffold.dart';
 import 'package:duino/providers/bluetooth-provider.dart';
@@ -15,8 +15,12 @@ class ConnectView extends StatelessWidget {
     ConnectProvider _connectProvider = Provider.of<ConnectProvider>(context);
     return AdaptiveScaffold(
         navBar: AdaptiveNavBar(
-          middle: Text('Connect'),
-          leading: AdaptiveButton(
+          backgroundColor: Styles.of(context).barBackgroundColor,
+          middle: Text(
+            'Connect',
+            style: Styles.of(context).navTitleTextStyle,
+          ),
+          leading: AdaptiveIconButton(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(
@@ -36,13 +40,12 @@ class ConnectView extends StatelessWidget {
           slivers: <Widget>[
             Consumer<BluetoothProvider>(
                 builder: (_, bluetoothProvider, __) => StatusComponent(
-                      device: bluetoothProvider.candidateDevice,
-                      status: bluetoothProvider.status,
-                      state: bluetoothProvider.bluetoothState
-                    )),
+                    device: bluetoothProvider.candidateDevice,
+                    status: bluetoothProvider.status,
+                    state: bluetoothProvider.bluetoothState)),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                padding: const EdgeInsets.fromLTRB(16, 16, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -53,26 +56,32 @@ class ConnectView extends StatelessWidget {
                           .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Container(
-                      width: 36,
-                      child: AdaptiveButton(
+                      padding: EdgeInsets.only(),
+                      child: CupertinoButton(
                           onPressed: () async {
                             await _connectProvider.scan(context);
                           },
                           child: AnimatedSwitcher(
-                            duration: Duration(milliseconds: 500),
-                            child: _connectProvider.searching
-                                ? AdaptiveActivityIndicator()
-                                : Text(
-                                    'Scan',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: Styles.of(context)
-                                        .textStyle
-                                        .copyWith(
-                                            fontSize: 16,
-                                            color: Styles.adaptiveBlueColor),
-                                  ),
-                          )),
+                              duration: Duration(milliseconds: 500),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: _connectProvider.searching
+                                    ? AdaptiveActivityIndicator(
+                                        color:
+                                            Styles.of(context).textStyle.color,
+                                      )
+                                    : Text(
+                                        'Scan',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: Styles.of(context)
+                                            .textStyle
+                                            .copyWith(
+                                                fontSize: 16,
+                                                color:
+                                                    Styles.adaptiveBlueColor),
+                                      ),
+                              ))),
                     )
                   ],
                 ),

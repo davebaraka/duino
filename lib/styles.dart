@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
@@ -28,7 +27,8 @@ class Styles {
   */
 
   static ThemeData _themeData = ThemeData();
-  static CupertinoThemeData _cupertinoThemeData = CupertinoThemeData();
+  static ThemeData _themeDataDark = ThemeData.dark();
+  //static CupertinoThemeData _cupertinoThemeData = CupertinoThemeData();
 
   /*
   Adaptive colors
@@ -84,6 +84,7 @@ class Styles {
 
   // Android Light Theme
   static ThemeData themeDataLight = ThemeData(
+    textTheme: _themeData.textTheme,
     scaffoldBackgroundColor: Colors.white,
     accentColor: Colors.white,
     primaryColorLight: Colors.white,
@@ -92,6 +93,7 @@ class Styles {
 
   // Android Dark Theme
   static ThemeData themeDataDark = ThemeData(
+    textTheme: _themeDataDark.textTheme,
     scaffoldBackgroundColor: Colors.black,
     accentColor: Colors.black,
     primaryColorLight: Colors.grey[800],
@@ -110,11 +112,12 @@ class _Data {
   final Color scaffoldBackgroundColor;
   final TextStyle textStyle;
   final TextStyle navTitleTextStyle;
+  final TextStyle navLargeTitleTextStyle;
 
   _Data({context})
       : primaryColor = Platform.isIOS
             ? CupertinoTheme.of(context).primaryColor
-            : Theme.of(context).primaryColor,
+            : Theme.of(context).primaryColorLight,
         primaryContrastingColor = Platform.isIOS
             ? CupertinoTheme.of(context).primaryContrastingColor
             : Theme.of(context).primaryColorDark,
@@ -132,5 +135,7 @@ class _Data {
             : Theme.of(context).textTheme.body1,
         navTitleTextStyle = Platform.isIOS
             ? CupertinoTheme.of(context).textTheme.navTitleTextStyle
-            : Theme.of(context).textTheme.title;
+            : Theme.of(context).textTheme.title,
+        navLargeTitleTextStyle =
+            Platform.isIOS ? null : Theme.of(context).textTheme.title;
 }

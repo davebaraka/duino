@@ -1,4 +1,4 @@
-import 'package:duino/components/adaptive-components/adaptive-button.dart';
+import 'package:duino/components/adaptive-components/adaptive-iconbutton.dart';
 import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/styles.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -17,7 +17,7 @@ class StateComponent extends StatelessWidget {
     ConnectionStatus status = bluetoothProvider.status;
     BluetoothState state = bluetoothProvider.bluetoothState;
     if (state != BluetoothState.on) {
-      return AdaptiveButton(
+      return AdaptiveIconButton(
         onPressed: () => onPressed(context),
         child: Icon(
           EvaIcons.minusCircleOutline,
@@ -27,7 +27,7 @@ class StateComponent extends StatelessWidget {
     } else {
       switch (status) {
         case ConnectionStatus.CONNECTED:
-          return AdaptiveButton(
+          return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
               EvaIcons.checkmarkCircleOutline,
@@ -35,7 +35,7 @@ class StateComponent extends StatelessWidget {
             ),
           );
         case ConnectionStatus.CONNECTING:
-          return AdaptiveButton(
+          return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
               EvaIcons.activity,
@@ -43,7 +43,7 @@ class StateComponent extends StatelessWidget {
             ),
           );
         case ConnectionStatus.DISCONNECTING:
-          return AdaptiveButton(
+          return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
               EvaIcons.activity,
@@ -51,7 +51,7 @@ class StateComponent extends StatelessWidget {
             ),
           );
         case ConnectionStatus.ERRORCONNECTING:
-          return AdaptiveButton(
+          return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
               EvaIcons.closeCircleOutline,
@@ -59,7 +59,7 @@ class StateComponent extends StatelessWidget {
             ),
           );
         case ConnectionStatus.ERRORDISCONNECTING:
-          return AdaptiveButton(
+          return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
               EvaIcons.closeCircleOutline,
@@ -67,7 +67,7 @@ class StateComponent extends StatelessWidget {
             ),
           );
         case ConnectionStatus.NONE:
-          return AdaptiveButton(
+          return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
               EvaIcons.minusCircleOutline,

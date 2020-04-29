@@ -15,51 +15,61 @@ class ConnectProvider with ChangeNotifier {
 
   Future<void> scan(context) async {
     if (!searching)
-    try {
-      searching = true;
-      notifyListeners();
-      List<BluetoothDevice> bluetoothDevices =
-          await Provider.of<BluetoothProvider>(context, listen: false)
-              .scanForDevices();
-      devices = [];
-      bluetoothDevices
-          .forEach((device) => devices.add(DeviceComponent(device: device)));
-      if (devices.length == 0) {
-       BluetoothState state = Provider.of<BluetoothProvider>(context, listen: false).bluetoothState;
-      String message = "No devices discovered.";
-      switch (state) {
-        case BluetoothState.unauthorized:
-          message = 'Bluetooth permission denied. Please go to your device\'s settings and allow \'Duino\' to access bluetooh';
-          break;
-        case BluetoothState.unavailable:
-          message = 'Sorry, your device does not have bluetooth.';
-          break;
-        case BluetoothState.unknown:
-          message = 'Please make sure bluetooth is on and you have allowed \'Duino\' to access bluetooh in your device\'s settings.';
-          break;
-        case BluetoothState.off:
-          message = 'Please turn on your device\'s bluetooth.';
-          break;
-        default:
-          break;
+      try {
+        searching = true;
+        notifyListeners();
+        List<BluetoothDevice> bluetoothDevices =
+            await Provider.of<BluetoothProvider>(context, listen: false)
+                .scanForDevices();
+        devices = [];
+        bluetoothDevices
+            .forEach((device) => devices.add(DeviceComponent(device: device)));
+        if (devices.length == 0) {
+          BluetoothState state =
+              Provider.of<BluetoothProvider>(context, listen: false)
+                  .bluetoothState;
+          String message = "No devices discovered.";
+          switch (state) {
+            case BluetoothState.unauthorized:
+              message =
+                  'Bluetooth permission denied. Please go to your device\'s settings and allow \'Duino\' to access bluetooh';
+              break;
+            case BluetoothState.unavailable:
+              message = 'Sorry, your device does not have bluetooth.';
+              break;
+            case BluetoothState.unknown:
+              message =
+                  'Please make sure bluetooth is on and you have allowed \'Duino\' to access bluetooh in your device\'s settings.';
+              break;
+            case BluetoothState.off:
+              message = 'Please turn on your device\'s bluetooth.';
+              break;
+            default:
+              break;
+          }
+          devices = [NoDeviceComponent(message: message)];
+        }
+        searching = false;
+        notifyListeners();
+      } catch (e) {
+        if (Provider.of<BluetoothProvider>(context, listen: false)
+                .bluetoothState ==
+            BluetoothState.unavailable) {
+          devices = [
+            NoDeviceComponent(
+              message: 'Sorry, your device does not have bluetooth.',
+            )
+          ];
+        } else {
+          devices = [
+            NoDeviceComponent(
+              message:
+                  'Sorry, there was an error fetching devices. Please try again.',
+            )
+          ];
+        }
+        searching = false;
+        notifyListeners();
       }
-        devices = [
-          NoDeviceComponent(
-            message: message
-          )
-        ];
-      }
-      searching = false;
-      notifyListeners();
-    } catch (e) {
-      devices = [
-        NoDeviceComponent(
-          message:
-              'Sorry, there was an error fetching devices. Pleast try again.',
-        )
-      ];
-      searching = false;
-      notifyListeners();
-    }
   }
 }

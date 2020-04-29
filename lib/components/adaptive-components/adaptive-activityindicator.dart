@@ -3,17 +3,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AdaptiveActivityIndicator extends StatelessWidget {
+  final Color color;
+  AdaptiveActivityIndicator({this.color});
   Widget _buildiOS() {
-    return CupertinoActivityIndicator();
+    return CupertinoActivityIndicator(
+      radius: 9.25,
+    );
   }
 
   Widget _buildAndroid() {
     return SizedBox(
       child: CircularProgressIndicator(
+        backgroundColor: color,
         strokeWidth: 2,
       ),
-      height: 24,
-      width: 24,
+      height: 18.5,
+      width: 18.5,
     );
   }
 

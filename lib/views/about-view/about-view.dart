@@ -1,9 +1,10 @@
-import 'package:duino/components/adaptive-components/adaptive-button.dart';
+import 'package:duino/components/adaptive-components/adaptive-iconbutton.dart';
 import 'package:duino/components/adaptive-components/adaptive-navbar.dart';
 import 'package:duino/components/adaptive-components/adaptive-scaffold.dart';
 import 'package:duino/styles.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutView extends StatelessWidget {
@@ -11,7 +12,8 @@ class AboutView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
         navBar: AdaptiveNavBar(
-          leading: AdaptiveButton(
+          backgroundColor: Styles.of(context).barBackgroundColor,
+          leading: AdaptiveIconButton(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(
@@ -23,7 +25,10 @@ class AboutView extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-          middle: Text('About'),
+          middle: Text(
+            'About',
+            style: Styles.of(context).navTitleTextStyle,
+          ),
         ),
         child: CustomScrollView(
           cacheExtent: MediaQuery.of(context).size.height,
@@ -41,11 +46,9 @@ class AboutView extends StatelessWidget {
                           .textStyle
                           .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    AdaptiveButton(
+                    CupertinoButton(
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Icon(
                             EvaIcons.githubOutline,
@@ -67,20 +70,15 @@ class AboutView extends StatelessWidget {
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
                     Text(
                       'Learn more about the designer and developer',
                       style: Styles.of(context)
                           .textStyle
                           .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    AdaptiveButton(
+                    CupertinoButton(
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Icon(
                             EvaIcons.atOutline,
@@ -102,20 +100,15 @@ class AboutView extends StatelessWidget {
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
                     Text(
                       'Terms and Conditions',
                       style: Styles.of(context)
                           .textStyle
                           .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    AdaptiveButton(
+                    CupertinoButton(
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Icon(
                             EvaIcons.externalLinkOutline,
@@ -138,20 +131,15 @@ class AboutView extends StatelessWidget {
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
                     Text(
                       'Privacy Policy',
                       style: Styles.of(context)
                           .textStyle
                           .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    AdaptiveButton(
+                    CupertinoButton(
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Icon(
                             EvaIcons.externalLinkOutline,
@@ -174,9 +162,6 @@ class AboutView extends StatelessWidget {
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
                     Text(
                       'Attributions',
                       style: Styles.of(context)
@@ -184,12 +169,20 @@ class AboutView extends StatelessWidget {
                           .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: 16,
+                      height: 8,
                     ),
-                    Text(
-                      'Icons made by Eucalyp from flaticon.com',
-                      style:
-                          Styles.of(context).textStyle.copyWith(fontSize: 20),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Text(
+                            'Icons made by Eucalyp from flaticon.com',
+                            style: Styles.of(context)
+                                .textStyle
+                                .copyWith(fontSize: 20),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 16,
@@ -201,12 +194,18 @@ class AboutView extends StatelessWidget {
                           .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: 16,
+                      height: 8,
                     ),
-                    Text(
-                      'v0.0.1',
-                      style:
-                          Styles.of(context).textStyle.copyWith(fontSize: 20),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 16),
+                        Text(
+                          'v0.0.1',
+                          style: Styles.of(context)
+                              .textStyle
+                              .copyWith(fontSize: 20),
+                        ),
+                      ],
                     ),
                   ],
                 ),

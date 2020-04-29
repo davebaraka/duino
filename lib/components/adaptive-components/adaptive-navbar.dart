@@ -10,9 +10,13 @@ class AdaptiveNavBar extends StatelessWidget
   final Widget trailing;
   final bool implyLeading;
   final dynamic navbar;
+  final Color backgroundColor;
+  final double elevation;
 
   AdaptiveNavBar(
       {this.middle,
+      this.elevation,
+      this.backgroundColor,
       this.implyLeading = true,
       this.leading,
       this.largeTitle,
@@ -23,6 +27,7 @@ class AdaptiveNavBar extends StatelessWidget
                     leading: leading,
                     largeTitle: largeTitle,
                     middle: middle,
+                    backgroundColor: backgroundColor,
                     trailing: trailing,
                     automaticallyImplyLeading: implyLeading,
                     border: null,
@@ -31,21 +36,26 @@ class AdaptiveNavBar extends StatelessWidget
                     padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                     leading: leading,
                     middle: middle,
+                    backgroundColor: backgroundColor,
                     trailing: trailing,
                     automaticallyImplyLeading: implyLeading,
                     border: null,
                   )
             : largeTitle != null
                 ? SliverAppBar(
+                    forceElevated: true,
                     leading: leading,
-                    title: middle,
+                    title: largeTitle,
+                    backgroundColor: backgroundColor,
                     actions: trailing != null ? [trailing] : [],
                     centerTitle: true,
                     automaticallyImplyLeading: implyLeading,
                   )
                 : AppBar(
+                    elevation: elevation ?? 4,
                     leading: leading,
                     title: middle,
+                    backgroundColor: backgroundColor,
                     actions: trailing != null ? [trailing] : [],
                     centerTitle: true,
                     automaticallyImplyLeading: implyLeading,

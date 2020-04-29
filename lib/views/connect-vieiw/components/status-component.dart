@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:duino/components/adaptive-components/adaptive-activityindicator.dart';
 import 'package:duino/components/adaptive-components/adaptive-material.dart';
 import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/styles.dart';
@@ -228,7 +227,7 @@ class StatusComponent extends StatelessWidget {
                       onTap: () async {
                         Platform.isIOS
                             ? await cupertinoDisconnectDialog(context)
-                            : null;
+                            : androidDisconnectDialog(context);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -277,7 +276,7 @@ class StatusComponent extends StatelessWidget {
                       onTap: () async {
                         Platform.isIOS
                             ? await cupertinoDisconnectDialog(context)
-                            : null;
+                            : androidDisconnectDialog(context);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

@@ -34,8 +34,9 @@ class ActionComponent extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(16),
                     child: Center(
-                      child: Image(
-                        image: AssetImage(image),
+                      child: Image.asset(
+                        image,
+                        filterQuality: FilterQuality.high,
                         height: 64,
                         width: 64,
                       ),
