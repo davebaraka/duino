@@ -52,14 +52,15 @@ class BluetoothProvider with ChangeNotifier {
   }
 
   Future<List<BluetoothDevice>> scanForDevices() async {
+    StreamSubscription<List<ScanResult>> scanResultStream;
     List<BluetoothDevice> devices = [];
     List<ScanResult> scanResults;
-    flutterBlue.startScan(timeout: Duration(seconds: 4));
-    flutterBlue.scanResults.listen((results) {
+    await flutterBlue.startScan(timeout: Duration(seconds: 4));
+    scanResultStream = flutterBlue.scanResults.listen((results) {
       scanResults = results;
     });
-    await Future.delayed(Duration(seconds: 4));
-    flutterBlue.stopScan();
+    await flutterBlue.stopScan();
+    await scanResultStream.cancel();
     scanResults.forEach((result) => devices.add(result.device));
     return devices;
   }
