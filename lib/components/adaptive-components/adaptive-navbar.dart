@@ -43,6 +43,7 @@ class AdaptiveNavBar extends StatelessWidget
                   )
             : largeTitle != null
                 ? SliverAppBar(
+                    pinned: true,
                     forceElevated: true,
                     leading: leading,
                     title: largeTitle,

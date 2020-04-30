@@ -84,6 +84,7 @@ class Styles {
 
   // Android Light Theme
   static ThemeData themeDataLight = ThemeData(
+    primaryColor: Colors.white,
     textTheme: _themeData.textTheme,
     scaffoldBackgroundColor: Colors.white,
     accentColor: Colors.white,
@@ -93,6 +94,7 @@ class Styles {
 
   // Android Dark Theme
   static ThemeData themeDataDark = ThemeData(
+    primaryColor: Colors.black,
     textTheme: _themeDataDark.textTheme,
     scaffoldBackgroundColor: Colors.black,
     accentColor: Colors.black,

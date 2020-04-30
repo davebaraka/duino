@@ -44,9 +44,10 @@ class AboutView extends StatelessWidget {
                       'Guides, tips, suggestions, and contributions',
                       style: Styles.of(context)
                           .textStyle
-                          .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+                          .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     CupertinoButton(
+                      padding: EdgeInsets.only(),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -61,7 +62,7 @@ class AboutView extends StatelessWidget {
                           Text(
                             'Github',
                             style: Styles.of(context).textStyle.copyWith(
-                                fontSize: 20, color: Styles.adaptiveBlueColor),
+                                fontSize: 16, color: Styles.adaptiveBlueColor),
                           )
                         ],
                       ),
@@ -70,13 +71,17 @@ class AboutView extends StatelessWidget {
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     Text(
                       'Learn more about the designer and developer',
                       style: Styles.of(context)
                           .textStyle
-                          .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+                          .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     CupertinoButton(
+                      padding: EdgeInsets.only(),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -91,7 +96,7 @@ class AboutView extends StatelessWidget {
                           Text(
                             'Dev',
                             style: Styles.of(context).textStyle.copyWith(
-                                fontSize: 20, color: Styles.adaptiveBlueColor),
+                                fontSize: 16, color: Styles.adaptiveBlueColor),
                           )
                         ],
                       ),
@@ -100,13 +105,17 @@ class AboutView extends StatelessWidget {
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     Text(
                       'Terms and Conditions',
                       style: Styles.of(context)
                           .textStyle
-                          .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+                          .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     CupertinoButton(
+                      padding: EdgeInsets.only(),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -121,7 +130,7 @@ class AboutView extends StatelessWidget {
                           Text(
                             'Terms',
                             style: Styles.of(context).textStyle.copyWith(
-                                fontSize: 20, color: Styles.adaptiveBlueColor),
+                                fontSize: 16, color: Styles.adaptiveBlueColor),
                           )
                         ],
                       ),
@@ -131,13 +140,17 @@ class AboutView extends StatelessWidget {
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     Text(
                       'Privacy Policy',
                       style: Styles.of(context)
                           .textStyle
-                          .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+                          .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     CupertinoButton(
+                      padding: EdgeInsets.only(),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -152,7 +165,7 @@ class AboutView extends StatelessWidget {
                           Text(
                             'Policy',
                             style: Styles.of(context).textStyle.copyWith(
-                                fontSize: 20, color: Styles.adaptiveBlueColor),
+                                fontSize: 16, color: Styles.adaptiveBlueColor),
                           )
                         ],
                       ),
@@ -162,24 +175,26 @@ class AboutView extends StatelessWidget {
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     Text(
                       'Attributions',
                       style: Styles.of(context)
                           .textStyle
-                          .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+                          .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 8,
                     ),
                     Row(
                       children: <Widget>[
-                        SizedBox(width: 16),
                         Expanded(
                           child: Text(
                             'Icons made by Eucalyp from flaticon.com',
                             style: Styles.of(context)
                                 .textStyle
-                                .copyWith(fontSize: 20),
+                                .copyWith(fontSize: 16),
                           ),
                         ),
                       ],
@@ -191,19 +206,18 @@ class AboutView extends StatelessWidget {
                       'Version',
                       style: Styles.of(context)
                           .textStyle
-                          .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+                          .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 8,
                     ),
                     Row(
                       children: <Widget>[
-                        SizedBox(width: 16),
                         Text(
                           'v0.0.1',
                           style: Styles.of(context)
                               .textStyle
-                              .copyWith(fontSize: 20),
+                              .copyWith(fontSize: 16),
                         ),
                       ],
                     ),

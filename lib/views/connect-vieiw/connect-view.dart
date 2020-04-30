@@ -56,8 +56,10 @@ class ConnectView extends StatelessWidget {
                           .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Container(
+                      height: 28,
                       padding: EdgeInsets.only(),
                       child: CupertinoButton(
+                          padding: EdgeInsets.fromLTRB(8, 0, 16, 0),
                           onPressed: () async {
                             await _connectProvider.scan(context);
                           },
