@@ -66,7 +66,7 @@ class AboutView extends StatelessWidget {
                         ],
                       ),
                       onPressed: () async {
-                        const url = 'https://github.com/davebaraka';
+                        const url = 'https://github.com/davebaraka/duino';
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
