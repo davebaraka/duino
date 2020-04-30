@@ -61,9 +61,11 @@ androidConnectDialog(BuildContext context, BluetoothDevice device) async {
   await showDialog(
       context: context,
       builder: (_) => AlertDialog(
+            backgroundColor: Styles.of(context).primaryColor,
             title: Text('Connect to'),
             content: SingleChildScrollView(
                 child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   device.name != "" ? device.name : '(Unknown)',
@@ -84,13 +86,7 @@ androidConnectDialog(BuildContext context, BluetoothDevice device) async {
             )),
             actions: <Widget>[
               FlatButton(
-                child: Text('Yes'),
-                onPressed: () {
-                  bluetoothProvider.connectDevice(device);
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
+                highlightColor: Styles.inactiveTextColor,
                 child: Text(
                   'No',
                   style: Styles.of(context)
@@ -100,7 +96,18 @@ androidConnectDialog(BuildContext context, BluetoothDevice device) async {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-              )
+              ),
+              FlatButton(
+                highlightColor: Styles.inactiveTextColor,
+                child: Text(
+                  'Yes',
+                  style: TextStyle(color: Styles.adaptiveBlueColor),
+                ),
+                onPressed: () {
+                  bluetoothProvider.connectDevice(device);
+                  Navigator.of(context).pop();
+                },
+              ),
             ],
           ));
 }
@@ -173,9 +180,11 @@ androidDisconnectDialog(BuildContext context) async {
   await showDialog(
       context: context,
       builder: (_) => AlertDialog(
+            backgroundColor: Styles.of(context).primaryColor,
             title: Text('Disconnect from'),
             content: SingleChildScrollView(
                 child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   bluetoothProvider.bluetoothDevice.name != ""
@@ -198,7 +207,23 @@ androidDisconnectDialog(BuildContext context) async {
             )),
             actions: <Widget>[
               FlatButton(
-                child: Text('Yes'),
+                highlightColor: Styles.inactiveTextColor,
+                child: Text(
+                  'No',
+                  style: Styles.of(context)
+                      .textStyle
+                      .copyWith(color: Styles.adaptiveRedColor),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                highlightColor: Styles.inactiveTextColor,
+                child: Text(
+                  'Yes',
+                  style: TextStyle(color: Styles.adaptiveBlueColor),
+                ),
                 onPressed: () {
                   bluetoothProvider.status = ConnectionStatus.DISCONNECTING;
                   try {
@@ -214,17 +239,6 @@ androidDisconnectDialog(BuildContext context) async {
                   Navigator.of(context).pop();
                 },
               ),
-              FlatButton(
-                child: Text(
-                  'No',
-                  style: Styles.of(context)
-                      .textStyle
-                      .copyWith(color: Styles.adaptiveRedColor),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
             ],
           ));
 }
@@ -254,6 +268,7 @@ androidWaitingDialog(BuildContext context) async {
   await showDialog(
       context: context,
       builder: (_) => AlertDialog(
+            backgroundColor: Styles.of(context).primaryColor,
             title: Text('In progress'),
             content: SingleChildScrollView(
                 child: Text(
@@ -262,7 +277,11 @@ androidWaitingDialog(BuildContext context) async {
             )),
             actions: <Widget>[
               FlatButton(
-                child: Text('Dismiss'),
+                highlightColor: Styles.inactiveTextColor,
+                child: Text(
+                  'Dismiss',
+                  style: TextStyle(color: Styles.adaptiveBlueColor),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
