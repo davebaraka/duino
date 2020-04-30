@@ -30,8 +30,8 @@ class AdaptiveIconButton extends StatelessWidget {
 
   Widget _buildAndroid(BuildContext context) {
     return IconButton(
+      padding: EdgeInsets.only(),
       onPressed: onPressed,
-      padding: padding ?? EdgeInsets.all(8),
       icon: child,
     );
   }

@@ -86,7 +86,8 @@ androidConnectDialog(BuildContext context, BluetoothDevice device) async {
             )),
             actions: <Widget>[
               FlatButton(
-                highlightColor: Styles.inactiveTextColor,
+                splashColor: Theme.of(context).splashColor,
+                highlightColor: Theme.of(context).highlightColor,
                 child: Text(
                   'No',
                   style: Styles.of(context)
@@ -98,7 +99,8 @@ androidConnectDialog(BuildContext context, BluetoothDevice device) async {
                 },
               ),
               FlatButton(
-                highlightColor: Styles.inactiveTextColor,
+                splashColor: Theme.of(context).splashColor,
+                highlightColor: Theme.of(context).highlightColor,
                 child: Text(
                   'Yes',
                   style: TextStyle(color: Styles.adaptiveBlueColor),
@@ -207,7 +209,8 @@ androidDisconnectDialog(BuildContext context) async {
             )),
             actions: <Widget>[
               FlatButton(
-                highlightColor: Styles.inactiveTextColor,
+                splashColor: Theme.of(context).splashColor,
+                highlightColor: Theme.of(context).highlightColor,
                 child: Text(
                   'No',
                   style: Styles.of(context)
@@ -219,7 +222,8 @@ androidDisconnectDialog(BuildContext context) async {
                 },
               ),
               FlatButton(
-                highlightColor: Styles.inactiveTextColor,
+                splashColor: Theme.of(context).splashColor,
+                highlightColor: Theme.of(context).highlightColor,
                 child: Text(
                   'Yes',
                   style: TextStyle(color: Styles.adaptiveBlueColor),
@@ -277,7 +281,8 @@ androidWaitingDialog(BuildContext context) async {
             )),
             actions: <Widget>[
               FlatButton(
-                highlightColor: Styles.inactiveTextColor,
+                splashColor: Theme.of(context).splashColor,
+                highlightColor: Theme.of(context).highlightColor,
                 child: Text(
                   'Dismiss',
                   style: TextStyle(color: Styles.adaptiveBlueColor),
