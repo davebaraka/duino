@@ -26,6 +26,8 @@
 	<string>Duino uses bluetooth to find, connect, and transfer data between different devices.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Duino uses bluetooth to find, connect, and transfer data between different devices.</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>

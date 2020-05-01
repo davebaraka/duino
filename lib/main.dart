@@ -14,6 +14,7 @@ void main() {
 class App extends StatelessWidget {
   Widget _buildiOS(BuildContext context) {
     return CupertinoApp(
+      debugShowCheckedModeBanner: false,
       title: 'Duino',
       theme: Styles.cupertinoTheme,
       onGenerateRoute: RouteGenerator.generateRoute,
@@ -22,6 +23,7 @@ class App extends StatelessWidget {
 
   Widget _buildAndroid(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Duino',
       theme: Styles.themeDataLight,
       darkTheme: Styles.themeDataDark,
