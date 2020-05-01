@@ -29,11 +29,19 @@ class AdaptiveIconButton extends StatelessWidget {
   }
 
   Widget _buildAndroid(BuildContext context) {
-    return IconButton(
-      padding: EdgeInsets.only(),
-      onPressed: onPressed,
-      icon: child,
-    );
+    return SizedBox(
+        height: 56,
+        width: 56,
+        child: ClipOval(
+            child: Material(
+          color: Colors.transparent, // button color
+          child: InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Theme.of(context).splashColor, // splash color
+            onTap: onPressed, // button pressed
+            child: child,
+          ),
+        )));
   }
 
   @override
