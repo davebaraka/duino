@@ -19,56 +19,7 @@ class StatusComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state != BluetoothState.on) {
-      String text = "Bluetooth Off";
-      switch (state) {
-        case BluetoothState.unauthorized:
-          text = 'Bluetooth Unauthorized';
-          break;
-        case BluetoothState.unavailable:
-          text = 'Bluetooth Unavailable';
-          break;
-        case BluetoothState.unknown:
-          text = 'Unable to connect to bluetooth.';
-          break;
-        default:
-          break;
-      }
-      return SliverPersistentHeader(
-          pinned: true,
-          delegate: _SliverPersistentHeaderDelegate(
-            backgroundColor: Styles.of(context).primaryContrastingColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  width: 16,
-                ),
-                Icon(
-                  EvaIcons.minusCircleOutline,
-                  color: Styles.of(context).textStyle.color,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Expanded(
-                  child: Text(
-                    text,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: Styles.of(context).textStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Styles.of(context).textStyle.color),
-                  ),
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-              ],
-            ),
-          ));
-    } else {
+    if ((state == BluetoothState.on || state == BluetoothState.unknown)) {
       switch (status) {
         case ConnectionStatus.NONE:
           return SliverPersistentHeader(
@@ -314,6 +265,52 @@ class StatusComponent extends StatelessWidget {
         default:
           return null;
       }
+    } else {
+      String text = "Bluetooth Off";
+      switch (state) {
+        case BluetoothState.unauthorized:
+          text = 'Bluetooth Unauthorized';
+          break;
+        case BluetoothState.unavailable:
+          text = 'Bluetooth Unavailable';
+          break;
+        default:
+          break;
+      }
+      return SliverPersistentHeader(
+          pinned: true,
+          delegate: _SliverPersistentHeaderDelegate(
+            backgroundColor: Styles.of(context).primaryContrastingColor,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  width: 16,
+                ),
+                Icon(
+                  EvaIcons.minusCircleOutline,
+                  color: Styles.of(context).textStyle.color,
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Expanded(
+                  child: Text(
+                    text,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: Styles.of(context).textStyle.copyWith(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Styles.of(context).textStyle.color),
+                  ),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+              ],
+            ),
+          ));
     }
   }
 }

@@ -16,15 +16,7 @@ class StateComponent extends StatelessWidget {
         Provider.of<BluetoothProvider>(context);
     ConnectionStatus status = bluetoothProvider.status;
     BluetoothState state = bluetoothProvider.bluetoothState;
-    if (state != BluetoothState.on) {
-      return AdaptiveIconButton(
-        onPressed: () => onPressed(context),
-        child: Icon(
-          EvaIcons.minusCircleOutline,
-          color: Styles.of(context).textStyle.color,
-        ),
-      );
-    } else {
+    if (state == BluetoothState.on || state == BluetoothState.unknown) {
       switch (status) {
         case ConnectionStatus.CONNECTED:
           return AdaptiveIconButton(
@@ -77,6 +69,14 @@ class StateComponent extends StatelessWidget {
         default:
           return null;
       }
+    } else {
+      return AdaptiveIconButton(
+        onPressed: () => onPressed(context),
+        child: Icon(
+          EvaIcons.minusCircleOutline,
+          color: Styles.of(context).textStyle.color,
+        ),
+      );
     }
   }
 }

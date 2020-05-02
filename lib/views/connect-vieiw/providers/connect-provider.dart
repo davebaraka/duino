@@ -32,14 +32,14 @@ class ConnectProvider with ChangeNotifier {
           switch (state) {
             case BluetoothState.unauthorized:
               message =
-                  'Bluetooth permission denied. Please go to your device\'s settings and allow \'Duino\' to access bluetooh';
+                  'Bluetooth permission denied. Please go to your device\'s settings and allow \'Duino\' to access bluetooth';
               break;
             case BluetoothState.unavailable:
               message = 'Sorry, your device does not have bluetooth.';
               break;
             case BluetoothState.unknown:
               message =
-                  'Please make sure bluetooth is on and you have allowed \'Duino\' to access bluetooh in your device\'s settings.';
+                  'Please make sure bluetooth is on and you have allowed \'Duino\' to access bluetooth in your device\'s settings.';
               break;
             case BluetoothState.off:
               message = 'Please turn on your device\'s bluetooth.';

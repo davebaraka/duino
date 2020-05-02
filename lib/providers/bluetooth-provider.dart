@@ -15,23 +15,23 @@ class BluetoothProvider with ChangeNotifier {
   BluetoothState bluetoothState = BluetoothState.on;
 
   void subscribeBluetooth() async {
-    if (await flutterBlue.isAvailable) {
-      bluetoothSubscription = flutterBlue.state.listen((onData) {
-        if (onData != BluetoothState.on) {
-          try {
-            disconnectDevice();
-          } catch (e) {
-            print(e);
-          }
-          status = ConnectionStatus.NONE;
-        }
+    bluetoothSubscription = flutterBlue.state.listen((onData) {
+      if (onData == BluetoothState.on || onData == BluetoothState.unknown) {
         bluetoothState = onData;
-        notifyListeners();
-      });
-    } else {
+      } else {
+        try {
+          disconnectDevice();
+        } catch (e) {
+          print(e);
+        }
+        status = ConnectionStatus.NONE;
+      }
+      notifyListeners();
+    }, onError: (e) {
       bluetoothState = BluetoothState.unavailable;
-    }
-    }
+      notifyListeners();
+    });
+  }
 
   Future<void> cancelBluetooth() async {
     await bluetoothSubscription.cancel();
