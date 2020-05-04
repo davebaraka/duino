@@ -4,31 +4,13 @@ import 'package:duino/components/adaptive-components/adaptive-customscrollview.d
 import 'package:duino/components/adaptive-components/adaptive-navbar.dart';
 import 'package:duino/components/adaptive-components/adaptive-scaffold.dart';
 import 'package:duino/components/state-component.dart';
-import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/styles.dart';
 import 'package:duino/views/home-view/components/action-component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class HomeView extends StatefulWidget {
-  @override
-  _HomeViewState createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<BluetoothProvider>(context, listen: false).subscribeBluetooth();
-  }
-
-  @override
-  void dispose() {
-    Provider.of<BluetoothProvider>(context, listen: false).cancelBluetooth();
-    super.dispose();
-  }
-
+/// The main view listing of all actions.
+class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AdaptiveScaffold(
@@ -72,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
                 subtitle: 'Virtual joystick',
                 image: 'assets/joystick.png',
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/ControllerView',
+                  Navigator.of(context).pushNamed('/JoystickView',
                       arguments: {'ANIM': 'PLATFORM-D', 'DATA': {}});
                 },
               ),

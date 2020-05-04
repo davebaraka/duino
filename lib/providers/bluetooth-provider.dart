@@ -1,123 +1,127 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:duino/models/bledevice-model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 
+/// Entry point for all bluetooth functionality.
 class BluetoothProvider with ChangeNotifier {
-  final FlutterBlue flutterBlue = FlutterBlue.instance;
-  BluetoothDevice bluetoothDevice;
-  BluetoothDevice candidateDevice;
-  List<BluetoothService> services;
-  ConnectionStatus status = ConnectionStatus.NONE;
-  StreamSubscription<BluetoothDeviceState> deviceSubscription;
-  StreamSubscription<BluetoothState> bluetoothSubscription;
-  BluetoothState bluetoothState = BluetoothState.on;
+  final BleManager bleManager = BleManager();
 
-  void subscribeBluetooth() async {
-    bluetoothSubscription = flutterBlue.state.listen((onData) {
-      if (onData == BluetoothState.on || onData == BluetoothState.unknown) {
-        bluetoothState = onData;
-      } else {
-        try {
-          disconnectDevice();
-        } catch (e) {
-          print(e);
-        }
-        status = ConnectionStatus.NONE;
-      }
-      notifyListeners();
-    }, onError: (e) {
-      bluetoothState = BluetoothState.unavailable;
-      notifyListeners();
-    });
-  }
+  BleDevice bleDevice;
+  StreamSubscription<PeripheralConnectionState> deviceStateSubscription;
+  StreamSubscription<BluetoothState> bluetoothStateSubscription;
+  BluetoothState bluetoothState = BluetoothState.UNKNOWN;
+  PeripheralConnectionState bleDeviceState =
+      PeripheralConnectionState.disconnected;
+  bool _mounted = true;
 
-  Future<void> cancelBluetooth() async {
-    await bluetoothSubscription.cancel();
-  }
-
-  void _subscribe() {
-    deviceSubscription = bluetoothDevice.state.listen((onData) {
-      if (onData == BluetoothDeviceState.connected) {
-        status = ConnectionStatus.CONNECTED;
-        notifyListeners();
-      } else if (onData == BluetoothDeviceState.disconnected) {
-        status = ConnectionStatus.NONE;
-        notifyListeners();
-      } else if (onData == BluetoothDeviceState.connecting) {
-        status = ConnectionStatus.CONNECTING;
-        notifyListeners();
-      } else if (onData == BluetoothDeviceState.disconnecting) {
-        status = ConnectionStatus.DISCONNECTING;
-        notifyListeners();
-      }
-    });
-  }
-
-  Future<List<BluetoothDevice>> scanForDevices() async {
-    StreamSubscription<List<ScanResult>> scanResultStream;
-    List<BluetoothDevice> devices = [];
-    List<ScanResult> scanResults;
-    await flutterBlue.startScan(timeout: Duration(seconds: 4));
-    scanResultStream = flutterBlue.scanResults.listen((results) {
-      scanResults = results;
-    });
-    await flutterBlue.stopScan();
-    await scanResultStream.cancel();
-    scanResults.forEach((result) => devices.add(result.device));
-    return devices;
-  }
-
-  Future<void> disconnectDevice() async {
-    if (bluetoothDevice != null) {
-      await deviceSubscription.cancel();
-      await bluetoothDevice.disconnect().timeout(Duration(seconds: 10));
-      bluetoothDevice = null;
-    }
-  }
-
-  Future<void> connectDevice(BluetoothDevice device) async {
-    status = ConnectionStatus.CONNECTING;
-    candidateDevice = device;
+  /// Starts bluetooth services.
+  Future<void> startBluetooth() async {
     try {
-      notifyListeners();
-      await disconnectDevice();
-      await device.connect().timeout(Duration(seconds: 10),
-          onTimeout: () async {
-        await bluetoothDevice.disconnect();
-        throw (TimeoutException);
+      await bleManager.createClient();
+      bluetoothStateSubscription =
+          bleManager.observeBluetoothState().listen((btState) {
+        bluetoothState = btState;
+        switch (btState) {
+          case BluetoothState.POWERED_OFF:
+            bleDevice = null;
+            break;
+          case BluetoothState.RESETTING:
+            bleDevice = null;
+            break;
+          case BluetoothState.UNAUTHORIZED:
+            bleDevice = null;
+            break;
+          case BluetoothState.UNSUPPORTED:
+            bleDevice = null;
+            break;
+          default:
+        }
+        notify();
+      }, onError: (e) {
+        print(e);
+        bluetoothState = BluetoothState.UNKNOWN;
+        notify();
       });
-      bluetoothDevice = device;
-      services = await device.discoverServices();
-      _subscribe();
-      status = ConnectionStatus.CONNECTED;
-      notifyListeners();
     } catch (e) {
-      status = ConnectionStatus.ERRORCONNECTING;
-      notifyListeners();
+      print(e);
+      bluetoothState = BluetoothState.UNKNOWN;
     }
   }
 
+  /// Connects to a bluetooth device
+  Future<void> connect(BleDevice device) async {
+    try {
+      await disconnect();
+      bleDevice = device;
+      bleDeviceState = PeripheralConnectionState.connecting;
+      notify();
+      await device.peripheral.connect(timeout: Duration(seconds: 8));
+      await device.peripheral
+          .discoverAllServicesAndCharacteristics()
+          .timeout(Duration(seconds: 8));
+      await device.setCharacteristic();
+      bleDeviceState = PeripheralConnectionState.connected;
+      deviceStateSubscription = device.peripheral
+          .observeConnectionState(
+              completeOnDisconnect: true, emitCurrentValue: true)
+          .listen((connectionState) {
+        bleDeviceState = connectionState;
+        notify();
+      }, onError: (e) {
+        print(e);
+      }, onDone: () => bleDevice = null);
+      notify();
+    } catch (e) {
+      print(e);
+      disconnect();
+      bleDeviceState = PeripheralConnectionState.disconnected;
+      notify();
+    }
+  }
+
+  /// Disconnects a bluetooth device.
+  Future<void> disconnect() async {
+    bleDeviceState = PeripheralConnectionState.disconnecting;
+    notify();
+    try {
+      if (bleDevice != null)
+        await bleDevice.peripheral
+            .disconnectOrCancelConnection()
+            .timeout(Duration(seconds: 8));
+      if (deviceStateSubscription != null)
+        await deviceStateSubscription.cancel().timeout(Duration(seconds: 4));
+      bleDevice = null;
+    } catch (e) {
+      print(e);
+    }
+    bleDeviceState = PeripheralConnectionState.disconnected;
+    notify();
+  }
+
+  /// Write to bluetooth characteristic.
   void write(String data) {
-    if (ConnectionStatus.CONNECTED == status) {
-      var characteristics = services[0].characteristics;
-      for (BluetoothCharacteristic c in characteristics) {
-        if (c.properties.writeWithoutResponse) {
-          c.write(utf8.encode(data), withoutResponse: true);
-        }
+    if ((bluetoothState == BluetoothState.POWERED_ON ||
+            bluetoothState == BluetoothState.UNKNOWN) &&
+        bleDeviceState == PeripheralConnectionState.connected) {
+      if (bleDevice.characteristic.isWritableWithoutResponse) {
+        bleDevice.characteristic
+            .write(utf8.encode(data), false)
+            .catchError((e) => print(e));
       }
     }
   }
 
-  void notify() => notifyListeners();
-}
+  /// Notify Listeners
+  void notify() => _mounted ? notifyListeners() : null;
 
-enum ConnectionStatus {
-  CONNECTED,
-  CONNECTING,
-  NONE,
-  ERRORCONNECTING,
-  DISCONNECTING,
-  ERRORDISCONNECTING
+  @override
+  void dispose() async {
+    _mounted = false;
+    await bluetoothStateSubscription.cancel();
+    await bleManager.destroyClient();
+    super.dispose();
+  }
 }

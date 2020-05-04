@@ -1,286 +1,158 @@
 import 'dart:io';
 
 import 'package:duino/components/adaptive-components/adaptive-material.dart';
+import 'package:duino/models/bledevice-model.dart';
 import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/styles.dart';
 import 'package:duino/views/connect-vieiw/components/dialog-component.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:provider/provider.dart';
 
+// Display current bluetooth/connected device status.
 class StatusComponent extends StatelessWidget {
-  final BluetoothDevice device;
-  final ConnectionStatus status;
-  final BluetoothState state;
-
-  StatusComponent(
-      {@required this.device, @required this.status, @required this.state});
-
   @override
   Widget build(BuildContext context) {
-    if ((state == BluetoothState.on || state == BluetoothState.unknown)) {
-      switch (status) {
-        case ConnectionStatus.NONE:
-          return SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverPersistentHeaderDelegate(
-                backgroundColor: Styles.of(context).primaryContrastingColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Icon(
-                      EvaIcons.minusCircleOutline,
-                      color: Styles.of(context).textStyle.color,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'No Device Connected',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: Styles.of(context).textStyle.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Styles.of(context).textStyle.color),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                  ],
-                ),
-              ));
-        case ConnectionStatus.CONNECTING:
-          String deviceName = device.name != "" ? device.name : '(Unknown)';
-          return SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverPersistentHeaderDelegate(
-                backgroundColor: Styles.warningBackgroundColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Icon(
-                      EvaIcons.activity,
-                      color: Styles.warningTextColor,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Connecting to $deviceName',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: Styles.of(context).textStyle.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Styles.warningTextColor),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                  ],
-                ),
-              ));
-        case ConnectionStatus.DISCONNECTING:
-          String deviceName = device.name != "" ? device.name : '(Unknown)';
-          return SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverPersistentHeaderDelegate(
-                backgroundColor: Styles.warningBackgroundColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Icon(
-                      EvaIcons.activity,
-                      color: Styles.warningTextColor,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Disconnecting from $deviceName',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: Styles.of(context).textStyle.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Styles.warningTextColor),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                  ],
-                ),
-              ));
-        case ConnectionStatus.ERRORCONNECTING:
-          String deviceName = device.name != "" ? device.name : '(Unknown)';
-          return SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverPersistentHeaderDelegate(
-                backgroundColor: Styles.dangerBackgroundColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Icon(
-                      EvaIcons.closeCircleOutline,
-                      color: Styles.dangerTextColor,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Unable to connect to $deviceName',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: Styles.of(context).textStyle.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Styles.dangerTextColor),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                  ],
-                ),
-              ));
-        case ConnectionStatus.ERRORDISCONNECTING:
-          String deviceName = device.name != "" ? device.name : '(Unknown)';
-          return SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverPersistentHeaderDelegate(
-                backgroundColor: Styles.dangerBackgroundColor,
-                child: Theme(
-                  data: Theme.of(context)
-                      .copyWith(splashColor: Colors.transparent),
-                  child: AdaptiveMaterial(
-                    child: InkWell(
-                      onTap: () async {
-                        Platform.isIOS
-                            ? await cupertinoDisconnectDialog(context)
-                            : androidDisconnectDialog(context);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Icon(
-                            EvaIcons.closeCircleOutline,
-                            color: Styles.dangerTextColor,
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Unable to disconnect from $deviceName',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: Styles.of(context).textStyle.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Styles.dangerTextColor),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 16,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ));
-        case ConnectionStatus.CONNECTED:
-          String deviceName = device.name != "" ? device.name : '(Unknown)';
-          return SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverPersistentHeaderDelegate(
-                backgroundColor: Styles.successBackgroundColor,
-                child: Theme(
-                  data: Theme.of(context)
-                      .copyWith(splashColor: Colors.transparent),
-                  child: AdaptiveMaterial(
-                    child: InkWell(
-                      onTap: () async {
-                        Platform.isIOS
-                            ? await cupertinoDisconnectDialog(context)
-                            : androidDisconnectDialog(context);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Icon(
-                            EvaIcons.checkmarkCircle,
-                            color: Styles.successTextColor,
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Connected to $deviceName',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: Styles.of(context).textStyle.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Styles.successTextColor),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 16,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ));
+    BluetoothProvider bluetoothProvider =
+        Provider.of<BluetoothProvider>(context);
+    final BleDevice bleDevice = bluetoothProvider.bleDevice;
+    final PeripheralConnectionState bleDeviceState =
+        bluetoothProvider.bleDeviceState;
+    final BluetoothState bluetoothState = bluetoothProvider.bluetoothState;
+
+    if ((bluetoothState == BluetoothState.POWERED_ON ||
+        bluetoothState == BluetoothState.UNKNOWN)) {
+      switch (bleDeviceState) {
+        case PeripheralConnectionState.disconnected:
+          return _buildHeader(
+            context: context,
+            text: 'No Device Connected',
+            backgroundColor: Styles.of(context).primaryContrastingColor,
+            iconData: EvaIcons.minusCircleOutline,
+            textColor: Styles.of(context).textStyle.color,
+          );
+        case PeripheralConnectionState.connecting:
+          return _buildHeader(
+            context: context,
+            text: 'Connecting to ${bleDevice.name}',
+            textColor: Styles.adaptiveWhiteColor,
+            backgroundColor: Styles.adaptiveOrangeColor,
+            iconData: EvaIcons.activityOutline,
+          );
+        case PeripheralConnectionState.disconnecting:
+          return _buildHeader(
+            context: context,
+            text: 'Disconnecting from ${bleDevice.name}',
+            textColor: Styles.adaptiveWhiteColor,
+            backgroundColor: Styles.adaptiveOrangeColor,
+            iconData: EvaIcons.activityOutline,
+          );
+        case PeripheralConnectionState.connected:
+          return _buildHeader(
+            context: context,
+            text: 'Connected to ${bleDevice.name}',
+            textColor: Styles.adaptiveWhiteColor,
+            backgroundColor: Styles.adaptiveGreenColor,
+            iconData: EvaIcons.checkmarkCircle,
+          );
         default:
-          return null;
+          return _buildHeader(
+            context: context,
+            text: 'No Device Connected',
+            backgroundColor: Styles.of(context).primaryContrastingColor,
+            iconData: EvaIcons.minusCircleOutline,
+            textColor: Styles.of(context).textStyle.color,
+          );
       }
     } else {
-      String text = "Bluetooth Off";
-      switch (state) {
-        case BluetoothState.unauthorized:
-          text = 'Bluetooth Unauthorized';
-          break;
-        case BluetoothState.unavailable:
-          text = 'Bluetooth Unavailable';
-          break;
+      switch (bluetoothState) {
+        case BluetoothState.UNAUTHORIZED:
+          return _buildHeader(
+              context: context,
+              text: 'Bluetooth Unauthorized',
+              backgroundColor: Styles.of(context).primaryContrastingColor,
+              iconData: EvaIcons.minusCircleOutline,
+              textColor: Styles.of(context).textStyle.color);
+        case BluetoothState.UNSUPPORTED:
+          return _buildHeader(
+              context: context,
+              text: 'Bluetooth Unavailable',
+              backgroundColor: Styles.of(context).primaryContrastingColor,
+              iconData: EvaIcons.minusCircleOutline,
+              textColor: Styles.of(context).textStyle.color);
         default:
-          break;
+          return _buildHeader(
+              context: context,
+              text: 'Bluetooth Off',
+              backgroundColor: Styles.of(context).primaryContrastingColor,
+              iconData: EvaIcons.minusCircleOutline,
+              textColor: Styles.of(context).textStyle.color);
       }
+    }
+  }
+
+  /// Builds a persistent header status for bluetooth state and device state.
+  SliverPersistentHeader _buildHeader(
+      {BuildContext context,
+      String text,
+      Color textColor,
+      Color backgroundColor,
+      IconData iconData}) {
+    if (backgroundColor == Styles.adaptiveGreenColor) {
+      return SliverPersistentHeader(
+        pinned: true,
+        delegate: _SliverPersistentHeaderDelegate(
+          backgroundColor: backgroundColor,
+          child: Theme(
+            data: Theme.of(context).copyWith(splashColor: Colors.transparent),
+            child: AdaptiveMaterial(
+              child: InkWell(
+                onTap: () async {
+                  Platform.isIOS
+                      ? await cupertinoDisconnectDialog(context)
+                      : await androidDisconnectDialog(context);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Icon(
+                      iconData,
+                      color: textColor,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: Text(
+                        text,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: Styles.of(context).textStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: textColor),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
       return SliverPersistentHeader(
           pinned: true,
           delegate: _SliverPersistentHeaderDelegate(
-            backgroundColor: Styles.of(context).primaryContrastingColor,
+            backgroundColor: backgroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -288,8 +160,8 @@ class StatusComponent extends StatelessWidget {
                   width: 16,
                 ),
                 Icon(
-                  EvaIcons.minusCircleOutline,
-                  color: Styles.of(context).textStyle.color,
+                  iconData,
+                  color: textColor,
                 ),
                 SizedBox(
                   width: 8,
@@ -302,7 +174,7 @@ class StatusComponent extends StatelessWidget {
                     style: Styles.of(context).textStyle.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Styles.of(context).textStyle.color),
+                        color: textColor),
                   ),
                 ),
                 SizedBox(
@@ -315,6 +187,7 @@ class StatusComponent extends StatelessWidget {
   }
 }
 
+/// Persistent header layout .
 class _SliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
   final Color backgroundColor;

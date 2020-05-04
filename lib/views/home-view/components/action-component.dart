@@ -4,6 +4,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+/// Individual action.
 class ActionComponent extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -11,7 +12,10 @@ class ActionComponent extends StatelessWidget {
   final VoidCallback onPressed;
 
   ActionComponent(
-      {@required this.title, @required this.subtitle, @required this.image, @required this.onPressed});
+      {@required this.title,
+      @required this.subtitle,
+      @required this.image,
+      @required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +23,12 @@ class ActionComponent extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: AdaptiveTheme(
         themeData: Theme.of(context).copyWith(splashColor: Colors.transparent),
-              child: Card(
+        child: Card(
           clipBehavior: Clip.antiAlias,
           color: Styles.of(context).primaryColor,
           shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(24),
-  ),
+            borderRadius: BorderRadius.circular(24),
+          ),
           child: InkWell(
             onTap: onPressed,
             child: Container(
@@ -47,13 +51,14 @@ class ActionComponent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            title,
-                            style: Styles.of(context).textStyle.copyWith(fontSize: 20, fontWeight: FontWeight.bold)
-                          ),
+                          Text(title,
+                              style: Styles.of(context).textStyle.copyWith(
+                                  fontSize: 20, fontWeight: FontWeight.bold)),
                           Text(
                             subtitle,
-                            style: Styles.of(context).textStyle.copyWith(fontSize: 16),
+                            style: Styles.of(context)
+                                .textStyle
+                                .copyWith(fontSize: 16),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           )
@@ -61,7 +66,10 @@ class ActionComponent extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Icon(EvaIcons.chevronRight, color: Styles.of(context).textStyle.color,),
+                    child: Icon(
+                      EvaIcons.chevronRight,
+                      color: Styles.of(context).textStyle.color,
+                    ),
                   )
                 ],
               ),

@@ -1,11 +1,12 @@
+import 'package:duino/models/bledevice-model.dart';
 import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 import 'package:provider/provider.dart';
 
-cupertinoConnectDialog(BuildContext context, BluetoothDevice device) async {
+// iOS Connect Dialog
+cupertinoConnectDialog(BuildContext context, BleDevice bleDevice) async {
   BluetoothProvider bluetoothProvider =
       Provider.of<BluetoothProvider>(context, listen: false);
   await showCupertinoDialog(
@@ -16,7 +17,7 @@ cupertinoConnectDialog(BuildContext context, BluetoothDevice device) async {
                 child: Column(
               children: <Widget>[
                 Text(
-                  device.name != "" ? device.name : '(Unknown)',
+                  bleDevice.name,
                   style: Styles.of(context).textStyle,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -25,7 +26,7 @@ cupertinoConnectDialog(BuildContext context, BluetoothDevice device) async {
                   height: 2,
                 ),
                 Text(
-                  device.id.id,
+                  bleDevice.id,
                   style: Styles.of(context)
                       .textStyle
                       .copyWith(color: Styles.adaptiveGrayColor, fontSize: 12),
@@ -36,7 +37,7 @@ cupertinoConnectDialog(BuildContext context, BluetoothDevice device) async {
               CupertinoDialogAction(
                 child: Text('Yes'),
                 onPressed: () {
-                  bluetoothProvider.connectDevice(device);
+                  bluetoothProvider.connect(bleDevice);
                   Navigator.of(context).pop();
                 },
               ),
@@ -55,7 +56,8 @@ cupertinoConnectDialog(BuildContext context, BluetoothDevice device) async {
           ));
 }
 
-androidConnectDialog(BuildContext context, BluetoothDevice device) async {
+// android Connect Dialog
+androidConnectDialog(BuildContext context, BleDevice bleDevice) async {
   BluetoothProvider bluetoothProvider =
       Provider.of<BluetoothProvider>(context, listen: false);
   await showDialog(
@@ -68,7 +70,7 @@ androidConnectDialog(BuildContext context, BluetoothDevice device) async {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  device.name != "" ? device.name : '(Unknown)',
+                  bleDevice.name,
                   style: Styles.of(context).textStyle,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -77,7 +79,7 @@ androidConnectDialog(BuildContext context, BluetoothDevice device) async {
                   height: 2,
                 ),
                 Text(
-                  device.id.id,
+                  bleDevice.id,
                   style: Styles.of(context)
                       .textStyle
                       .copyWith(color: Styles.adaptiveGrayColor, fontSize: 12),
@@ -106,7 +108,7 @@ androidConnectDialog(BuildContext context, BluetoothDevice device) async {
                   style: TextStyle(color: Styles.adaptiveBlueColor),
                 ),
                 onPressed: () {
-                  bluetoothProvider.connectDevice(device);
+                  bluetoothProvider.connect(bleDevice);
                   Navigator.of(context).pop();
                 },
               ),
@@ -114,6 +116,7 @@ androidConnectDialog(BuildContext context, BluetoothDevice device) async {
           ));
 }
 
+// iOS Disconnect Dialog
 cupertinoDisconnectDialog(BuildContext context) async {
   BluetoothProvider bluetoothProvider =
       Provider.of<BluetoothProvider>(context, listen: false);
@@ -125,9 +128,7 @@ cupertinoDisconnectDialog(BuildContext context) async {
                 child: Column(
               children: <Widget>[
                 Text(
-                  bluetoothProvider.bluetoothDevice.name != ""
-                      ? bluetoothProvider.bluetoothDevice.name
-                      : '(Unknown)',
+                  bluetoothProvider.bleDevice.name,
                   style: Styles.of(context).textStyle,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -136,7 +137,7 @@ cupertinoDisconnectDialog(BuildContext context) async {
                   height: 2,
                 ),
                 Text(
-                  bluetoothProvider.bluetoothDevice.id.id,
+                  bluetoothProvider.bleDevice.id,
                   style: Styles.of(context)
                       .textStyle
                       .copyWith(color: Styles.adaptiveGrayColor, fontSize: 12),
@@ -147,17 +148,7 @@ cupertinoDisconnectDialog(BuildContext context) async {
               CupertinoDialogAction(
                 child: Text('Yes'),
                 onPressed: () {
-                  bluetoothProvider.status = ConnectionStatus.DISCONNECTING;
-                  try {
-                    bluetoothProvider.notify();
-                    bluetoothProvider.disconnectDevice();
-                    bluetoothProvider.status = ConnectionStatus.NONE;
-                    bluetoothProvider.notify();
-                  } catch (e) {
-                    bluetoothProvider.notify();
-                    bluetoothProvider.status =
-                        ConnectionStatus.ERRORDISCONNECTING;
-                  }
+                  bluetoothProvider.disconnect();
                   Navigator.of(context).pop();
                 },
               ),
@@ -176,6 +167,7 @@ cupertinoDisconnectDialog(BuildContext context) async {
           ));
 }
 
+// android Disconnect Dialog
 androidDisconnectDialog(BuildContext context) async {
   BluetoothProvider bluetoothProvider =
       Provider.of<BluetoothProvider>(context, listen: false);
@@ -189,9 +181,7 @@ androidDisconnectDialog(BuildContext context) async {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  bluetoothProvider.bluetoothDevice.name != ""
-                      ? bluetoothProvider.bluetoothDevice.name
-                      : '(Unknown)',
+                  bluetoothProvider.bleDevice.name,
                   style: Styles.of(context).textStyle,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -200,7 +190,7 @@ androidDisconnectDialog(BuildContext context) async {
                   height: 2,
                 ),
                 Text(
-                  bluetoothProvider.bluetoothDevice.id.id,
+                  bluetoothProvider.bleDevice.id,
                   style: Styles.of(context)
                       .textStyle
                       .copyWith(color: Styles.adaptiveGrayColor, fontSize: 12),
@@ -229,17 +219,7 @@ androidDisconnectDialog(BuildContext context) async {
                   style: TextStyle(color: Styles.adaptiveBlueColor),
                 ),
                 onPressed: () {
-                  bluetoothProvider.status = ConnectionStatus.DISCONNECTING;
-                  try {
-                    bluetoothProvider.notify();
-                    bluetoothProvider.disconnectDevice();
-                    bluetoothProvider.status = ConnectionStatus.NONE;
-                    bluetoothProvider.notify();
-                  } catch (e) {
-                    bluetoothProvider.notify();
-                    bluetoothProvider.status =
-                        ConnectionStatus.ERRORDISCONNECTING;
-                  }
+                  bluetoothProvider.disconnect();
                   Navigator.of(context).pop();
                 },
               ),
@@ -247,6 +227,7 @@ androidDisconnectDialog(BuildContext context) async {
           ));
 }
 
+// iOS Waiting Dialog
 cupertinoWaitingDialog(BuildContext context) async {
   await showCupertinoDialog(
       context: context,
@@ -254,7 +235,7 @@ cupertinoWaitingDialog(BuildContext context) async {
             title: Text('In progress'),
             content: SingleChildScrollView(
                 child: Text(
-              'Device is currently connecting or disconnecting. Please try again.',
+              'Device is communicating. Please try again.',
               style: Styles.of(context).textStyle,
             )),
             actions: <Widget>[
@@ -268,6 +249,7 @@ cupertinoWaitingDialog(BuildContext context) async {
           ));
 }
 
+// android Waiting Dialog
 androidWaitingDialog(BuildContext context) async {
   await showDialog(
       context: context,
@@ -276,7 +258,7 @@ androidWaitingDialog(BuildContext context) async {
             title: Text('In progress'),
             content: SingleChildScrollView(
                 child: Text(
-              'Device is currently connecting or disconnecting. Please try again.',
+              'Device is communicating. Please try again.',
               style: Styles.of(context).textStyle,
             )),
             actions: <Widget>[

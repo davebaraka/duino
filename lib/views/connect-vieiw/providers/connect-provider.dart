@@ -1,75 +1,107 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:duino/models/bledevice-model.dart';
 import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/views/connect-vieiw/components/device-component.dart';
 import 'package:duino/views/connect-vieiw/components/nodevice-component.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_blue/flutter_blue.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class ConnectProvider with ChangeNotifier {
-  List<Widget> devices = [
+class ConnectProvider extends ChangeNotifier {
+  StreamSubscription<ScanResult> scanSubscription;
+  StreamSubscription<void> scanningSubscription;
+  bool isScanning = false;
+  bool _mounted = true;
+  BleManager bleManager;
+  List<Widget> widgets = [
     NoDeviceComponent(
-      message: 'Discovered devices will be shown here.',
+      showDefaultMessage: true,
     )
   ];
-  bool searching = false;
 
-  Future<void> scan(context) async {
-    if (!searching)
+  /// Scan for bluetooth devices.
+  Future<void> startScan(BluetoothProvider bluetoothProvider) async {
+    bleManager = bluetoothProvider.bleManager;
+    if (!isScanning &&
+        (bluetoothProvider.bluetoothState == BluetoothState.POWERED_ON ||
+            bluetoothProvider.bluetoothState == BluetoothState.UNKNOWN)) {
       try {
-        searching = true;
-        notifyListeners();
-        List<BluetoothDevice> bluetoothDevices =
-            await Provider.of<BluetoothProvider>(context, listen: false)
-                .scanForDevices();
-        devices = [];
-        bluetoothDevices
-            .forEach((device) => devices.add(DeviceComponent(device: device)));
-        if (devices.length == 0) {
-          BluetoothState state =
-              Provider.of<BluetoothProvider>(context, listen: false)
-                  .bluetoothState;
-          String message = "No devices discovered.";
-          switch (state) {
-            case BluetoothState.unauthorized:
-              message =
-                  'Bluetooth permission denied. Please go to your device\'s settings and allow \'Duino\' to access bluetooth';
-              break;
-            case BluetoothState.unavailable:
-              message = 'Sorry, your device does not have bluetooth.';
-              break;
-            case BluetoothState.unknown:
-              message =
-                  'Please make sure bluetooth is on and you have allowed \'Duino\' to access bluetooth in your device\'s settings.';
-              break;
-            case BluetoothState.off:
-              message = 'Please turn on your device\'s bluetooth.';
-              break;
-            default:
-              break;
+        isScanning = true;
+        widgets.clear();
+        widgets = [NoDeviceComponent()];
+        notify();
+        List<BleDevice> bleDevices = [];
+        await _checkPermissions();
+        scanSubscription = bluetoothProvider.bleManager
+            .startPeripheralScan()
+            .listen((scanResult) {
+          BleDevice bleDevice = BleDevice(scanResult);
+          if (scanResult.advertisementData.localName != null &&
+              !bleDevices.contains(bleDevice)) {
+            if (bleDevices.isEmpty) widgets.clear();
+            bleDevices.add(bleDevice);
+            widgets.add(DeviceComponent(bleDevice: bleDevice));
+            notify();
           }
-          devices = [NoDeviceComponent(message: message)];
-        }
-        searching = false;
-        notifyListeners();
+        }, onError: (e) async {
+          print(e);
+          await _cancelScan();
+        });
+
+        scanningSubscription = Future.delayed(Duration(seconds: 8), () async {
+          await _cancelScan();
+          if (bleDevices.isEmpty) widgets = [NoDeviceComponent()];
+          isScanning = false;
+          notify();
+        }).asStream().listen((onData) {});
       } catch (e) {
-        if (Provider.of<BluetoothProvider>(context, listen: false)
-                .bluetoothState ==
-            BluetoothState.unavailable) {
-          devices = [
-            NoDeviceComponent(
-              message: 'Sorry, your device does not have bluetooth.',
-            )
-          ];
-        } else {
-          devices = [
-            NoDeviceComponent(
-              message:
-                  'Sorry, there was an error fetching devices. Please try again.',
-            )
-          ];
-        }
-        searching = false;
-        notifyListeners();
+        _cancelScan();
+        widgets = [
+          NoDeviceComponent(
+            showAndroidMessage: true,
+          )
+        ];
+        isScanning = false;
+        notify();
       }
+    } else if (!isScanning &&
+        bluetoothProvider.bluetoothState != BluetoothState.POWERED_ON &&
+        bluetoothProvider.bluetoothState != BluetoothState.UNKNOWN) {
+      widgets = [NoDeviceComponent()];
+      isScanning = false;
+      notify();
+    }
+  }
+
+  /// Cancel scan and clean up.
+  Future<void> _cancelScan() async {
+    try {
+      if (scanSubscription != null) await scanSubscription.cancel();
+      if (bleManager != null) await bleManager.stopPeripheralScan();
+      if (scanningSubscription != null) await scanningSubscription.cancel();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  /// Android only. Based on documentation.
+  Future<void> _checkPermissions() async {
+    if (Platform.isAndroid) {
+      if (await Permission.location.request().isGranted) {
+        return Future.error(Exception("Location permission not granted"));
+      }
+    }
+  }
+
+  /// Notify listeners based on state.
+  void notify() => _mounted ? notifyListeners() : null;
+
+  @override
+  void dispose() {
+    _mounted = false;
+    _cancelScan();
+    super.dispose();
   }
 }

@@ -3,9 +3,10 @@ import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/styles.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:provider/provider.dart';
 
+/// Icon displays current bluetooth/device state.
 class StateComponent extends StatelessWidget {
   void onPressed(context) => Navigator.of(context)
       .pushNamed('/ConnectView', arguments: {'ANIM': 'PLATFORM-D', 'DATA': {}});
@@ -14,11 +15,11 @@ class StateComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     BluetoothProvider bluetoothProvider =
         Provider.of<BluetoothProvider>(context);
-    ConnectionStatus status = bluetoothProvider.status;
-    BluetoothState state = bluetoothProvider.bluetoothState;
-    if (state == BluetoothState.on || state == BluetoothState.unknown) {
-      switch (status) {
-        case ConnectionStatus.CONNECTED:
+    PeripheralConnectionState deviceState = bluetoothProvider.bleDeviceState;
+    BluetoothState bluetoothState = bluetoothProvider.bluetoothState;
+    if (bluetoothState == BluetoothState.POWERED_ON || bluetoothState == BluetoothState.UNKNOWN) {
+      switch (deviceState) {
+        case PeripheralConnectionState.connected:
           return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
@@ -26,7 +27,7 @@ class StateComponent extends StatelessWidget {
               color: Styles.adaptiveGreenColor,
             ),
           );
-        case ConnectionStatus.CONNECTING:
+        case PeripheralConnectionState.connecting:
           return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
@@ -34,7 +35,7 @@ class StateComponent extends StatelessWidget {
               color: Styles.adaptiveOrangeColor,
             ),
           );
-        case ConnectionStatus.DISCONNECTING:
+        case PeripheralConnectionState.disconnecting:
           return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
@@ -42,23 +43,7 @@ class StateComponent extends StatelessWidget {
               color: Styles.adaptiveOrangeColor,
             ),
           );
-        case ConnectionStatus.ERRORCONNECTING:
-          return AdaptiveIconButton(
-            onPressed: () => onPressed(context),
-            child: Icon(
-              EvaIcons.closeCircleOutline,
-              color: Styles.adaptiveRedColor,
-            ),
-          );
-        case ConnectionStatus.ERRORDISCONNECTING:
-          return AdaptiveIconButton(
-            onPressed: () => onPressed(context),
-            child: Icon(
-              EvaIcons.closeCircleOutline,
-              color: Styles.adaptiveRedColor,
-            ),
-          );
-        case ConnectionStatus.NONE:
+        case PeripheralConnectionState.disconnected:
           return AdaptiveIconButton(
             onPressed: () => onPressed(context),
             child: Icon(
@@ -67,7 +52,13 @@ class StateComponent extends StatelessWidget {
             ),
           );
         default:
-          return null;
+      return AdaptiveIconButton(
+        onPressed: () => onPressed(context),
+        child: Icon(
+          EvaIcons.minusCircleOutline,
+          color: Styles.of(context).textStyle.color,
+        ),
+      );
       }
     } else {
       return AdaptiveIconButton(

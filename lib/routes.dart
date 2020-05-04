@@ -2,8 +2,8 @@ import 'package:duino/components/pageroute-component.dart';
 import 'package:duino/views/about-view/about-view.dart';
 import 'package:duino/views/connect-vieiw/connect-view.dart';
 import 'package:duino/views/connect-vieiw/providers/connect-provider.dart';
-import 'package:duino/views/controller-view/controller-view.dart';
 import 'package:duino/views/home-view/home-view.dart';
+import 'package:duino/views/joystick-view/joystick-view.dart';
 import 'package:duino/views/remote-view/providers/remote-provider.dart';
 import 'package:duino/views/remote-view/remote-view.dart';
 import 'package:duino/views/tilt-view/tilt-view.dart';
@@ -16,7 +16,6 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final Map<String, dynamic> args = settings.arguments;
     final String animation = settings.isInitialRoute ? null : args['ANIM'];
-    //final dynamic data = settings.isInitialRoute ? null : args['DATA'];
 
     switch (settings.name) {
       case '/':
@@ -31,8 +30,8 @@ class RouteGenerator {
             page: ChangeNotifierProvider(
                 create: (_) => RemoteProvider(), child: RemoteView()),
             animation: animation);
-      case '/ControllerView':
-        return pageRoute(page: ControllerView(), animation: animation);
+      case '/JoystickView':
+        return pageRoute(page: JoystickView(), animation: animation);
       case '/TiltView':
         return pageRoute(page: TiltView(), animation: animation);
       case '/AboutView':

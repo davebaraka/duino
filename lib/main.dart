@@ -7,8 +7,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(App());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  BluetoothProvider bluetoothProvider = BluetoothProvider();
+  await bluetoothProvider.startBluetooth();
+  runApp(ChangeNotifierProvider.value(value: bluetoothProvider, child: App()));
 }
 
 class App extends StatelessWidget {
@@ -33,8 +36,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (_) => BluetoothProvider(),
-        child: (Platform.isIOS) ? _buildiOS(context) : _buildAndroid(context));
+    return (Platform.isIOS) ? _buildiOS(context) : _buildAndroid(context);
   }
 }

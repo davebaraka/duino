@@ -11,7 +11,7 @@ import 'package:duino/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class ControllerView extends StatelessWidget {
+class JoystickView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BluetoothProvider bluetoothProvider =
@@ -45,6 +45,7 @@ class ControllerView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
           child: JoystickComponent(
+            interval: Duration(milliseconds: 50),
             onDirectionChanged: (double degrees, double distance) {
               String de;
               String di;
@@ -57,8 +58,7 @@ class ControllerView extends StatelessWidget {
                   .toStringAsFixed(0)
                   .padLeft(2, "00")
                   .padLeft(3, "0");
-
-              bluetoothProvider.write('($de,$di)#');
+              bluetoothProvider.write('$de$di#');
             },
             showArrows: false,
             backgroundColor: Styles.of(context).primaryContrastingColor,

@@ -2,18 +2,20 @@ import 'dart:io';
 
 import 'package:duino/components/adaptive-components/adaptive-material.dart';
 import 'package:duino/components/adaptive-components/adaptive-theme.dart';
+import 'package:duino/models/bledevice-model.dart';
 import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/styles.dart';
 import 'package:duino/views/connect-vieiw/components/dialog-component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:provider/provider.dart';
 
+/// Device list item.
 class DeviceComponent extends StatelessWidget {
-  final BluetoothDevice device;
+  final BleDevice bleDevice;
 
-  DeviceComponent({@required this.device});
+  DeviceComponent({@required this.bleDevice});
 
   @override
   Widget build(BuildContext context) {
@@ -24,21 +26,23 @@ class DeviceComponent extends StatelessWidget {
         themeData: Theme.of(context).copyWith(splashColor: Colors.transparent),
         child: InkWell(
           onTap: () async {
-            if (bluetoothProvider.status == ConnectionStatus.DISCONNECTING ||
-                bluetoothProvider.status == ConnectionStatus.CONNECTING) {
+            if (bluetoothProvider.bleDeviceState ==
+                    PeripheralConnectionState.disconnecting ||
+                bluetoothProvider.bleDeviceState ==
+                    PeripheralConnectionState.connecting) {
               Platform.isIOS
                   ? await cupertinoWaitingDialog(context)
-                  : androidWaitingDialog(context);
+                  : await androidWaitingDialog(context);
             } else {
-              if (bluetoothProvider.bluetoothDevice != null &&
-                  this.device.id == bluetoothProvider.bluetoothDevice.id) {
+              if (bluetoothProvider.bleDevice != null &&
+                  bleDevice.id == bluetoothProvider.bleDevice.id) {
                 Platform.isIOS
                     ? await cupertinoDisconnectDialog(context)
-                    : androidDisconnectDialog(context);
+                    : await androidDisconnectDialog(context);
               } else {
                 Platform.isIOS
-                    ? await cupertinoConnectDialog(context, device)
-                    : androidConnectDialog(context, device);
+                    ? await cupertinoConnectDialog(context, bleDevice)
+                    : await androidConnectDialog(context, bleDevice);
               }
             }
           },
@@ -48,13 +52,13 @@ class DeviceComponent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    device.name != "" ? device.name : '(Unknown)',
+                    bleDevice.name,
                     style: Styles.of(context).textStyle,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                   Text(
-                    device.id.id,
+                    bleDevice.id,
                     style: Styles.of(context).textStyle.copyWith(
                         color: Styles.adaptiveGrayColor, fontSize: 12),
                     overflow: TextOverflow.ellipsis,

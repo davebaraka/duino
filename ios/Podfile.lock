@@ -1,12 +1,11 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_blue (0.0.1):
+  - flutter_ble_lib (2.2.3):
     - Flutter
-    - flutter_blue/Protos (= 0.0.1)
-  - flutter_blue/Protos (0.0.1):
+    - MultiplatformBleAdapter (= 0.1.5)
+  - MultiplatformBleAdapter (0.1.5)
+  - "permission_handler (5.0.0+hotfix.5)":
     - Flutter
-    - Protobuf (~> 3.11.4)
-  - Protobuf (3.11.4)
   - sensors (0.0.1):
     - Flutter
   - url_launcher (0.0.1):
@@ -18,7 +17,8 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_blue (from `.symlinks/plugins/flutter_blue/ios`)
+  - flutter_ble_lib (from `.symlinks/plugins/flutter_ble_lib/ios`)
+  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - sensors (from `.symlinks/plugins/sensors/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
@@ -26,13 +26,15 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Protobuf
+    - MultiplatformBleAdapter
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_blue:
-    :path: ".symlinks/plugins/flutter_blue/ios"
+  flutter_ble_lib:
+    :path: ".symlinks/plugins/flutter_ble_lib/ios"
+  permission_handler:
+    :path: ".symlinks/plugins/permission_handler/ios"
   sensors:
     :path: ".symlinks/plugins/sensors/ios"
   url_launcher:
@@ -44,13 +46,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_blue: eeb381dc4727a0954dede73515f683865494b370
-  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
+  flutter_ble_lib: 20e79f0b1d78d921d9ed68ab4451e190029bc3d9
+  MultiplatformBleAdapter: 3c4391d428382738a47662ae1f665a29ce78ff39
+  permission_handler: 6226fcb78b97c7c7458a95c7346a11d5184fec12
   sensors: 84eb7a30e47a649e4172b71d6e81be614c280336
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
 
-PODFILE CHECKSUM: d6a5eef966181cbcd5960a9cb4150f11d90176fe
+PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
 
 COCOAPODS: 1.8.4

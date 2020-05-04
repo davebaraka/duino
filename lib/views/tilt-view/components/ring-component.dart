@@ -14,6 +14,10 @@ class RingComponent extends StatefulWidget {
 }
 
 class _RingComponentState extends State<RingComponent> {
+  DateTime callbackTimestamp = DateTime.now();
+  Duration interval = Duration(milliseconds: 50);
+
+  /// Same as joystick
   AccelerometerEvent accelerometerEvent;
   StreamSubscription<AccelerometerEvent> accelerometerStream;
   double roll = 0;
@@ -37,6 +41,18 @@ class _RingComponentState extends State<RingComponent> {
     }
   }
 
+  bool _canWriteToDevice() {
+    int intervalMilliseconds = interval.inMilliseconds;
+    int timestampMilliseconds = callbackTimestamp.millisecondsSinceEpoch;
+    int currentTimeMilliseconds = DateTime.now().millisecondsSinceEpoch;
+
+    if (currentTimeMilliseconds - timestampMilliseconds <=
+        intervalMilliseconds) {
+      return false;
+    }
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +73,10 @@ class _RingComponentState extends State<RingComponent> {
           String r = normalize(roll.round());
           String p = normalize(pitch.round());
 
-          bluetoothProvider.write('($r,$p)#');
+          if (_canWriteToDevice()) {
+            bluetoothProvider.write('$r$p#');
+            callbackTimestamp = DateTime.now();
+          }
         });
       }
     });
