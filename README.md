@@ -6,11 +6,11 @@
     <br>
 </h1>
 
-Control an arduino using your phone's bluetooth. Duino is available on both iOS and android featuring buttons, d-pad, joystick, and tilt pad to control your arduino. The possibiltes of these features are limited by your imagination. Duino was created as a project using a cross platform development framework, Flutter. One of the main goals of this project was to create a simple and modern user interface. Enjoy!
+Control an arduino using your phone's bluetooth. Duino is available on both [iOS](https://apps.apple.com/us/app/duino/id1511212791) and [android](https://play.google.com/store/apps/details?id=dev.duino&hl=en_US) featuring buttons, d-pad, joystick, and tilt pad to control your arduino. The possibiltes of these features are limited by your imagination. Duino was created as a project using a cross platform development framework, Flutter. One of the main goals of this project was to create a simple and modern user interface. Enjoy!
 
 <h1 align="center">
   <br>
-  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/mockup.png" width="50%" height="25%" title="Mockup">
+  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/mockup.png" width="100%" height="100%" title="Mockup">
     <br>
 </h1>
 
