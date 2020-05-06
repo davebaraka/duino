@@ -17,9 +17,9 @@ Control an arduino using your phone's bluetooth. Duino is available on both <a h
 
 <p align="center">
   <a href="https://apps.apple.com/us/app/duino/id1511212791" target="_blank">
-  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/app-store-badge.png" width="25%" height="25%" title="Apple App Store"></a>
+  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/app-store-badge.png" width="100%" height="100%" title="Apple App Store"></a>
     <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank">
-  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/google-play-badge.png" width="25%" height="25%" title="Google Play">
+  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/google-play-badge.png" width="100%" height="100%" title="Google Play">
       <a>
 </p>
 
