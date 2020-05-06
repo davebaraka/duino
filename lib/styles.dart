@@ -134,10 +134,10 @@ class _Data {
             : Theme.of(context).scaffoldBackgroundColor,
         textStyle = Platform.isIOS
             ? CupertinoTheme.of(context).textTheme.textStyle
-            : Theme.of(context).textTheme.body1,
+            : Theme.of(context).textTheme.bodyText1,
         navTitleTextStyle = Platform.isIOS
             ? CupertinoTheme.of(context).textTheme.navTitleTextStyle
-            : Theme.of(context).textTheme.title,
+            : Theme.of(context).textTheme.headline6,
         navLargeTitleTextStyle =
-            Platform.isIOS ? null : Theme.of(context).textTheme.title;
+            Platform.isIOS ? null : Theme.of(context).textTheme.headline6;
 }

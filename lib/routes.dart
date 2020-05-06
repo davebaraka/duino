@@ -15,10 +15,10 @@ import 'package:provider/provider.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final Map<String, dynamic> args = settings.arguments;
-    final String animation = settings.isInitialRoute ? null : args['ANIM'];
+    final String animation = args['ANIM'];
 
     switch (settings.name) {
-      case '/':
+      case '/HomeView':
         return pageRoute(page: HomeView(), animation: animation);
       case '/ConnectView':
         return pageRoute(
