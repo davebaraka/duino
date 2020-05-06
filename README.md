@@ -1,10 +1,18 @@
-# duino
+<h1 align="center">
+  <br>
+  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/featured.png" width="50%" height="25%" title="Duino Logo">
+   <br>
+    Duino v0.0.1
+    <br>
+</h1>
 
-A new Flutter project.
+Control an arduino using your phone's bluetooth. Duino is available on both iOS and android featuring buttons, d-pad, joystick, and tilt pad to control your arduino. The possibiltes of these features are limited by your imagination. Duino was created as a project using a cross platform development framework, Flutter. One of the main goals of this project was to create a simple and modern user interface. Enjoy!
+
+## Contents
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+## Contribute
 
 A few resources to get you started if this is your first Flutter project:
 
