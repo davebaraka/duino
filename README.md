@@ -10,7 +10,7 @@ Control an arduino using your phone's bluetooth. Duino is available on both iOS 
 
 <h1 align="center">
   <br>
-  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/mockup.png" width="50%" height="25%" title="Mockup">
+  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/mockup.png" width="100%" height="100%" title="Mockup">
     <br>
 </h1>
 
