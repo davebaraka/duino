@@ -18,8 +18,8 @@
 
 <p align="center">
   <a href="https://apps.apple.com/us/app/duino/id1511212791" target="_blank">
-  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/app-store-badge.png" width="146.25" height="49.4" title="Apple App Store"></a>&nbsp; &nbsp; &nbsp;
-    <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank"><img src="https://github.com/davebaraka/duino/blob/master/assets/git/google-play-badge.png" width="165.1" height="49.4" title="Google Play"></a>
+  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/app-store-badge.png" width="168.75" height="57" title="Apple App Store"></a>&nbsp; &nbsp; &nbsp;
+    <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank"><img src="https://github.com/davebaraka/duino/blob/master/assets/git/google-play-badge.png" width="190.5" height="57" title="Google Play"></a>
 </p>
 
 ## Contents
