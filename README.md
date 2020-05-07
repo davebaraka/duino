@@ -25,11 +25,11 @@ Control an arduino using your phone's bluetooth. Duino is available on both <a h
 
 ### Requirements
 
-* Mobile device running at least iOS 8.0 or android 4.4 or later
+* Mobile device running at least iOS 8.0 or android 4.4
 * [HM-10 Bluetooth 4.0 LE Module](https://www.amazon.com/gp/product/B074VXZ1XZ/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 * Arduino board (Ex. Arduino Uno)
 
-Similar configurations and devices may work. Please read your device's documentation before continuing. The setup used in this guide includes an iPhone XR, an Arduino Uno, and a HM-10 bluetooth module. For more information, please visit [Limitations]().
+Similar configurations and devices may work. Please read your device's documentation before continuing. The setup used in this guide includes an iPhone XR, an Arduino Uno, and a HM-10 bluetooth module. For more information, please see [Limitations](https://github.com/davebaraka/duino/edit/master/README.md#Limitations).
 
 ### Setup
 
@@ -37,9 +37,11 @@ Download the <a href="https://apps.apple.com/us/app/duino/id1511212791" target="
 
 Wire your Arduino Uno and HM-10 bluetooth module. See the circuit diagram below.
 
-![Drag Racing](https://github.com/davebaraka/duino/blob/master/assets/git/circuit.png)
+![Circuit Diagram](https://github.com/davebaraka/duino/blob/master/assets/git/circuit.png)
 
-* The HM-10 bluetooth module has a working voltage support of 3.3V to 6V, but the logic level is **3.3V**.  If the logic level of your board is 5V, it is recommended that you use a voltage divider. In this guide we have 3.3V power source that will be used.
+* The RX and TX pins are used for serial communication. The Arduino Uno (device to the left) features several pins that can be used for serial communiation through the [SoftwareSerial Library](https://www.arduino.cc/en/Reference/softwareSerial). Pins 0 and 1 on the arduino have built-in support for serial communication; however, these ports can interfere with the native serial communication. As a result, pins 10 and 11 are used in the diagram above, where pin 10 acts as RX and pin 11 acts as TX.
+
+* The HM-10 bluetooth module (device to the right) has a working voltage support of 3.3V to 6V, but the logic level is **3.3V**.  If the logic level of your board is 5V, it is recommended that you use a voltage divider. In the diagram above, a 3.3V power source is used to power the bluetooth module.
 
 ### Hello World
 
