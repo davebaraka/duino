@@ -126,7 +126,7 @@ There may be a time (probably not if I did my job well) where the bluetooth modu
 
 ## Development
 
-Flutter is used as the framework to develop both the iOS and android app. Flutter version 1.17.0 was used at the time of developemnt. If you decide to continue development and use a different version, you may need to migrate some. You may also encounter some errors if flutter decides to download the a third party version that has errors or is incompatible. A workaround would be to use the exact versions I used, so in [pubspec.yaml](https://github.com/davebaraka/duino/blob/master/pubspec.yaml#L33), where the third party libraries are defined, you could write something like this `provider: 4.0.5` instead of this `provider: ^4.0.5`.
+Flutter is used as the framework to develop both the iOS and android app. Flutter version 1.17.0 was used at the time of developemnt. If you decide to continue development and use a different version, you may need to migrate some files. You may also encounter some errors if flutter decides to download a third party version that has errors or is incompatible. A workaround would be to use the exact versions I used, so in [pubspec.yaml](https://github.com/davebaraka/duino/blob/master/pubspec.yaml#L33), where the third party libraries are defined, you could write something like this `provider: 4.0.5` instead of this `provider: ^4.0.5`, though this is not recommended.
 
 App Architecture (Barebones)
 
@@ -139,7 +139,7 @@ App Architecture (Barebones)
 * `lib/routes.dart`: Navigation manager. Navigating between different screens.
 * `lib/styles.dart`: Where all the dynamic and consistent colors and styles are defined.
 
-My focus for this application was to create a simple and easy-to-use interface. Flutter, being a UI-first framework, made the developemnt process significantly faster, where most of my efforts were focused on the design. I had prior experience using Flutter, so setting up the project as an expandable architecture was simple. My design process for the app went something like this:
+My main focus for this application was to create a simple and easy-to-use interface. Flutter, being a UI-first framework, made the developemnt process significantly faster, where most of my efforts were focused on the design. I had prior experience using Flutter, so setting up the project as an expandable architecture was simple. My design process for the app went something like this:
 
 * Research bluetooth devices, similar apps and ideas, connectivity interfaces
 * Sketch a mockup design with pencil and paper.
@@ -152,9 +152,9 @@ My focus for this application was to create a simple and easy-to-use interface. 
 * Attempt to build it.
 * Test, publish, and document.
 
-The app was intended to act more like virtual hardware that an arduino could use. That is why there isn't much feedback in the app when it comes to the emitted data from the application. For instance, when you use the tilt pad, there is no start or stop button and there is no way to see the data being sent on the device. I was aiming for a plug and play interaction, where a user would focus their efforts on using the app as a tool and spend most of their time creating programs for the arduino. Additionally, when it comes to similar applications, Duino aims to be as transparent as possible. Duino does not rely on third party software on the arduino and is open source. This gives users abosolute control on how to interpret the data and make desired modifications.
+The app was intended to act more like virtual hardware that an arduino could use. That is why there isn't much feedback in the app when it comes to the emitted data from the application. For instance, when you use the tilt pad, there is no start or stop button and there is no way to see the data being sent on your mobile device. I was aiming for a plug and play interaction, where a user would focus their efforts on using the app as a tool and spend most of their time creating programs for the arduino. Additionally, when it comes to similar applications, Duino aims to be as transparent as possible. Duino does not rely on third party software on the arduino and Duino is open source. This gives users abosolute control on how to interpret the data and make desired modifications.
 
-Some complications I encountered was with the math to interpret the roll and pitch from the acceleration data of the accelerometer. I still don't quite understand what's going on, but the values were consistent as I rotated my device. You can see the equations [here](https://github.com/davebaraka/duino/blob/0f5fa6b23aba9bdd42250b2ee2da88cfd5525dc8/lib/views/tilt-view/components/ring-component.dart#L63). I got them off of stackoverflow somewhere. Another difficulty was parsing the data for the arduino. I was unfamiliar with C++ and their use of arrays. My parsers may have some naive approaches in parsing a stream of characters.
+Some complications I encountered was with the math to interpret the roll and pitch from the acceleration data of the accelerometer. I still don't quite understand what's going on, but the values were consistent as I rotated my device. You can see the equations [here](https://github.com/davebaraka/duino/blob/0f5fa6b23aba9bdd42250b2ee2da88cfd5525dc8/lib/views/tilt-view/components/ring-component.dart#L63). I got them off of [stackoverflow](https://stackoverflow.com/questions/3755059/3d-accelerometer-calculate-the-orientation). Another difficulty was parsing the data for the arduino. I was unfamiliar with C++ and their use of arrays. My parsers may have some naive approaches in parsing a stream of characters.
 
 ## Contribute
 
