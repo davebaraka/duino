@@ -47,6 +47,13 @@ Power your arduino and a LED on the bluetooth module should start to blink, indi
 
 Open the Duino app and tap the 'Connect' button. Then tap 'Scan' in the connect screen. Tap on the bluetooth device, 'DSD TECH' in this case, and then tap 'Yes' to connect. The LED on the bluetooth module should stop blinking, indicating your devices have successfully paired.
 
+<p>
+<img src="https://github.com/davebaraka/duino/blob/master/assets/git/setup-1.png" width="25%" height="25%" title="Setup 1"> &nbsp; &nbsp;
+<img src="https://github.com/davebaraka/duino/blob/master/assets/git/setup-2.png" width="25%" height="25%" title="Setup 2">
+&nbsp; &nbsp;
+<img src="https://github.com/davebaraka/duino/blob/master/assets/git/setup-3.png" width="25%" height="25%" title="Setup 3">
+</p>
+
 * Make sure you agree to allow Duino to access the bluetooth permission. For android users, you may need to allow Duino to access the location permission in order to successfully complete scans. For more information on why this permission is requied, please read the [android documentation](https://developer.android.com/guide/topics/connectivity/bluetooth-le#permissions). For information on why iOS does not require the location permission, read [this](https://www.polidea.com/blog/a-curious-relationship-android-ble-and-location/#why-ios-is-different). **Duino does not collect or transmit personal data.**
 
 ### Hello World
