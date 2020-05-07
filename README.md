@@ -35,8 +35,11 @@ Similar configurations and devices may work. Please read your device's documenta
 
 Download the <a href="https://apps.apple.com/us/app/duino/id1511212791" target="_blank">iOS</a> or <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank">android</a> app.
 
-Wire your Arduino Uno and HM-10 bluetooth module. 
-* The HM-10 bluetooth module has a working voltage support of 3.3V to 6V, but the logic level is **3.3V**.  If the logic level of your board is 5V, it is recommended that you use a voltage divider. In this guide we have 3.3V power source that will be used. See the circuit diagram below.
+Wire your Arduino Uno and HM-10 bluetooth module. See the circuit diagram below.
+
+![Drag Racing](https://github.com/davebaraka/duino/blob/master/assets/git/circuit.png)
+
+* The HM-10 bluetooth module has a working voltage support of 3.3V to 6V, but the logic level is **3.3V**.  If the logic level of your board is 5V, it is recommended that you use a voltage divider. In this guide we have 3.3V power source that will be used.
 
 ### Hello World
 
