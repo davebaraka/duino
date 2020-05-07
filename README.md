@@ -47,18 +47,69 @@ Power your arduino and a LED on the bluetooth module should start to blink, indi
 
 Open the Duino app and tap the 'Connect' button. Then tap 'Scan' in the connect screen. Tap on the bluetooth device, 'DSD TECH' in this case, and then tap 'Yes' to connect. The LED on the bluetooth module should stop blinking and maintain a solid glow, indicating your devices have successfully paired.
 
-<p>
-<img src="https://github.com/davebaraka/duino/blob/master/assets/git/setup-1.png" width="25%" height="25%" title="Setup 1"> &nbsp; &nbsp;
-<img src="https://github.com/davebaraka/duino/blob/master/assets/git/setup-2.png" width="25%" height="25%" title="Setup 2">
-&nbsp; &nbsp;
-<img src="https://github.com/davebaraka/duino/blob/master/assets/git/setup-3.png" width="25%" height="25%" title="Setup 3">
-</p>
-
-* Make sure you agree to allow Duino to access the bluetooth permission. For android users, you may need to allow Duino to access the location permission in order to successfully complete scans. For more information on why this permission is requied, please read the [android documentation](https://developer.android.com/guide/topics/connectivity/bluetooth-le#permissions). For information on why iOS does not require the location permission, read [this](https://www.polidea.com/blog/a-curious-relationship-android-ble-and-location/#why-ios-is-different). **Duino does not collect or transmit personal data.**
+* Make sure you agree to allow Duino to access the bluetooth permission. For android users, you may need to allow Duino to access the location permission in order to successfully complete scans. For more information on why this permission is required, please read the [android documentation](https://developer.android.com/guide/topics/connectivity/bluetooth-le#permissions). For information on why iOS does not require the location permission, read [this](https://www.polidea.com/blog/a-curious-relationship-android-ble-and-location/#why-ios-is-different). **Duino does not collect or transmit personal data.**
 
 ### Hello World
 
+Let's create a program for the arduino to read the raw data coming from Duino. Upload the following code to your arduino. Make sure you use the correct RX and TX pins. This example program is following the circuit diagram above. 
+
+```C++
+#include <SoftwareSerial.h>
+
+SoftwareSerial BTSerial(10, 11); // RX | TX
+
+void setup() {
+  Serial.begin(9600);
+  BTSerial.begin(9600);
+  while (!Serial);
+  Serial.println("DUINO: <ARDUINO READY>");
+}
+
+void loop() {
+  if (BTSerial.available()) {
+    Serial.write(BTSerial.read());
+  }
+}
+```
+
+Use the different features of Duino to see how the program reacts in the serial monitor.
+
+You should see a long line of characters, after `DUINO: <ARDUINO READY>`. I will explain the bounds for the data received for each feature under [Features]().
+
+[Here](https://github.com/davebaraka/duino/blob/master/assets/git/examples) is a simple program to turn the arduino built in LED on and off by pressing 1 and 0 on the keypad.
+
 ## Features
+
+I've included example parsers for each feature in the Duino folder [here](https://github.com/davebaraka/duino/blob/master/assets/git/examples). The `Duino.ino` file contains all the parsers. Uncomment the parser you would like to use in the main loop.
+
+Data received by Duino are ASCII characters delimted by a `#`.
+
+### Keypad
+
+Keypad inputs from Duino are digit characters ranging from `0 to 9` inclusive.
+
+Duino registers keypad releases as a valid input. Long presses or canceled presses will not be registered. See D-pad for long press inputs.
+
+### D-pad
+
+D-pad inputs from Duino are alpha characters, either `N` `S` `E` or `W`.
+
+Duino will emit one of the values while pressing a d-pad key, and then emit the delimeter on release.
+
+### Joystick
+
+Joystick inputs from Duino are characters that can be visualized as `degreedistance#`. The degree is the joystick angle, and the distance is the distance from the center. Both degree and distance contain three digit characters. For instance, you may get a stream of data like `000000#150255#355002#`, which is interpreted as `(0 degrees, 0 units)`, `(150 degrees, 255 units)`, and `(355 degrees, 2 units)`. Degrees range from `0 to 360` inclusive, while the units range from `0 to 255` inclusive.
+
+Duino will emit a joystick value at least every `75ms` if the joystick changes position.
+
+### Tilt Pad
+
+Tilt pad inputs from Duino are characters that can be visualized as `rollpitch#`. The roll is the device rotation around the front-to-back axis in degrees, and the pitch is the device rotation around the side-to-side axis in degrees. Both roll and pitch contain four characters. These characters are digits and/or `-`. For instance, you may get a stream of data like `-0010090#01500072#-117-012#`, which is interpreted as `(-1 degrees, 90 degrees)`, `(150 degrees, 72 degrees)`, and `(-117 degrees, -12 degrees)`. The roll ranges from `-180 to 180` degrees inclusive, while the pitch ranges from `-90 to 90` inclusive.
+
+Duino will emit a tilt pad value at least every `75ms`.
+
+
+For more information on how to read and parse serial data, see [this](https://forum.arduino.cc/index.php?topic=396450.0).
 
 ## Contribute
 
@@ -70,3 +121,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+___
+
+To learn more about the HM-10 bluetooth module, see [this](http://blog.blecentral.com/2015/05/05/hm-10-peripheral/).
