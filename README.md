@@ -29,11 +29,16 @@ Control an arduino using your phone's bluetooth. Duino is available on both <a h
 * [HM-10 Bluetooth 4.0 LE Module](https://www.amazon.com/gp/product/B074VXZ1XZ/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 * Arduino board (Ex. Arduino Uno)
 
-Similar configurations and devices may work. Please read your device's documentation before continuing. My setup includes an iPhone XR, an Arduino Uno, and a HM-10 bluetooth module. For more information, please visit [Limitations]().
+Similar configurations and devices may work. Please read your device's documentation before continuing. The setup used in this guide includes an iPhone XR, an Arduino Uno, and a HM-10 bluetooth module. For more information, please visit [Limitations]().
 
 ### Setup
 
-### First Program
+Download the <a href="https://apps.apple.com/us/app/duino/id1511212791" target="_blank">iOS</a> or <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank">android</a> app.
+
+Wire your Arduino Uno and HM-10 bluetooth module. 
+* The HM-10 bluetooth module has a working voltage support of 3.3V to 6V, but the logic level is **3.3V**.  If the logic level of your board is 5V, it is recommended that you use a voltage divider. In this guide we have 3.3V power source that will be used. See the circuit diagram below.
+
+### Hello World
 
 ## Features
 
