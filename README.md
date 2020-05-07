@@ -45,7 +45,7 @@ Wire your Arduino Uno and HM-10 bluetooth module. See the circuit diagram below.
 
 Power your arduino and a LED on the bluetooth module should start to blink, indicating an unpaired state.
 
-Open the Duino app and tap the 'Connect' button. Then tap 'Scan' in the connect screen. Tap on the bluetooth device, 'DSD TECH' in this case, and then tap 'Yes' to connect. The LED on the bluetooth module should stop blinking, indicating your devices have successfully paired.
+Open the Duino app and tap the 'Connect' button. Then tap 'Scan' in the connect screen. Tap on the bluetooth device, 'DSD TECH' in this case, and then tap 'Yes' to connect. The LED on the bluetooth module should stop blinking and maintain a solid glow, indicating your devices have successfully paired.
 
 <p>
 <img src="https://github.com/davebaraka/duino/blob/master/assets/git/setup-1.png" width="25%" height="25%" title="Setup 1"> &nbsp; &nbsp;
