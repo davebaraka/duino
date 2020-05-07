@@ -15,9 +15,8 @@ class RingComponent extends StatefulWidget {
 
 class _RingComponentState extends State<RingComponent> {
   DateTime callbackTimestamp = DateTime.now();
-  Duration interval = Duration(milliseconds: 50);
+  Duration interval = Duration(milliseconds: 75);
 
-  /// Same as joystick
   AccelerometerEvent accelerometerEvent;
   StreamSubscription<AccelerometerEvent> accelerometerStream;
   double roll = 0;

@@ -45,7 +45,7 @@ class JoystickView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
           child: JoystickComponent(
-            interval: Duration(milliseconds: 50),
+            interval: Duration(milliseconds: 75),
             onDirectionChanged: (double degrees, double distance) {
               String de;
               String di;
