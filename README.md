@@ -3,29 +3,44 @@
   <img src="https://github.com/davebaraka/duino/blob/master/assets/git/featured.png" width="50%" height="25%" title="Duino Logo">
    <br>
     Duino v0.0.1
-    <br>
+   <br>
 </h1>
 
 <p>
-Control an arduino using your phone's bluetooth. Duino is available on both <a href="https://apps.apple.com/us/app/duino/id1511212791" target="_blank">iOS</a> and <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank">android</a> featuring buttons, d-pad, joystick, and tilt pad to control your arduino. The possibiltes of these features are limited by your imagination. Duino was created as a project using a cross platform development framework, Flutter. One of the main goals of this project was to create a simple and modern user interface. Enjoy!</p>
+Control an arduino using your phone's bluetooth. Duino is available on both <a href="https://apps.apple.com/us/app/duino/id1511212791" target="_blank">iOS</a> and <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank">android</a> featuring buttons, d-pad, joystick, and tilt pad to control your arduino. The possibiltes of these features are limited by your imagination. Duino was created as a project using a cross platform development framework, Flutter. One of the main goals of this project was to create a simple and modern user interface. Enjoy!
+</p>
 
 <p align="center">
   <br>
   <img src="https://github.com/davebaraka/duino/blob/master/assets/git/mockup.png" width="100%" height="100%" title="Mockup">
-    <br>
+  <br>
 </p>
 
 <p align="center">
-  <a href="https://apps.apple.com/us/app/duino/id1511212791" target="_blank">
-  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/app-store-badge.png" width="100%" height="100%" title="Apple App Store"></a>
-    <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank">
-  <img src="https://github.com/davebaraka/duino/blob/master/assets/git/google-play-badge.png" width="100%" height="100%" title="Google Play">
-      <a>
+  <a href="https://apps.apple.com/us/app/duino/id1511212791" target="_blank"><img src="https://github.com/davebaraka/duino/blob/master/assets/git/app-store-badge.png" width="112.5" height="38" title="Apple App Store"></a>&nbsp; &nbsp; &nbsp;
+  <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank"><img src="https://github.com/davebaraka/duino/blob/master/assets/git/google-play-badge.png" width="127" height="38" title="Google Play"></a>
 </p>
 
-## Contents
-
 ## Getting Started
+
+### Requirements
+
+* Mobile device running at least iOS 8.0 or android 4.4 or later
+* [HM-10 Bluetooth 4.0 LE Module](https://www.amazon.com/gp/product/B074VXZ1XZ/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
+* Arduino board (Ex. Arduino Uno)
+
+Similar configurations and devices may work. Please read your device's documentation before continuing. The setup used in this guide includes an iPhone XR, an Arduino Uno, and a HM-10 bluetooth module. For more information, please visit [Limitations]().
+
+### Setup
+
+Download the <a href="https://apps.apple.com/us/app/duino/id1511212791" target="_blank">iOS</a> or <a href="https://play.google.com/store/apps/details?id=dev.duino&hl=en_US" target="_blank">android</a> app.
+
+Wire your Arduino Uno and HM-10 bluetooth module. 
+* The HM-10 bluetooth module has a working voltage support of 3.3V to 6V, but the logic level is **3.3V**.  If the logic level of your board is 5V, it is recommended that you use a voltage divider. In this guide we have 3.3V power source that will be used. See the circuit diagram below.
+
+### Hello World
+
+## Features
 
 ## Contribute
 
