@@ -128,7 +128,7 @@ There may be a time (probably not if I did my job well) where the bluetooth modu
 
 Flutter is used as the framework to develop both the iOS and android app. Flutter version 1.17.0 was used at the time of developemnt. If you decide to continue development and use a different version, you may need to migrate some. You may also encounter some errors if flutter decides to download the a third party version that has errors or is incompatible. A workaround would be to use the exact versions I used, so in [pubspec.yaml](https://github.com/davebaraka/duino/blob/master/pubspec.yaml#L33), where the third party libraries are defined, you could write something like this `provider: 4.0.5` instead of this `provider: ^4.0.5`.
 
-App Architecture
+App Architecture (Barebones)
 
 * `lib/`: Where all the action happens. 
 * `lib/components/`: Contains reusable components or widgets used throughout the application.
