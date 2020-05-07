@@ -43,6 +43,16 @@ Wire your Arduino Uno and HM-10 bluetooth module. See the circuit diagram below.
 
 * The HM-10 bluetooth module (device to the right) has a working voltage support of 3.3V to 6V, but the logic level is **3.3V**.  If the logic level of your board is 5V, it is recommended that you use a voltage divider. In the diagram above, a 3.3V power source is used to power the bluetooth module.
 
+Power your arduino and a LED on the bluetooth module should start to blink, indicating an unpaired state.
+
+Open the Duino app and tap the 'Connect' button. Then tap 'Scan' in the connect screen. 
+
+* Make sure you agree to allow Duino to access the bluetooth permission. For android users, you may need to allow Duino to access the location permission in order to successfully complete scans. For more information on why this permission is requied, please read the [android documentation](https://developer.android.com/guide/topics/connectivity/bluetooth-le#permissions). For information on why iOS does not require the location permission, read [this](https://www.polidea.com/blog/a-curious-relationship-android-ble-and-location/#why-ios-is-different). **Duino does not collect or transmit personal data.**
+
+Tap on the bluetooth device, 'DSD TECH' in this case, and then tap 'Yes' to connect.
+
+The LED on the bluetooth module should stop blinking, indicating your devices have successfully paired.
+
 ### Hello World
 
 ## Features
