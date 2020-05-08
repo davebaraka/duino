@@ -214,7 +214,7 @@ class AboutView extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Text(
-                          'v0.0.1',
+                          'v0.0.3',
                           style: Styles.of(context)
                               .textStyle
                               .copyWith(fontSize: 16),

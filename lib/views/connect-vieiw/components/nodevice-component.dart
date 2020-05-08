@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 /// Display user feedback of connection discovery.
 class NoDeviceComponent extends StatelessWidget {
   final String defaultMessage = "Discovered devices will show here.";
-  final String androidMessage = "Location access is required to initiate scans for bluetooth devices. Please allow \'Duino\' to access location in your device\'s settings.";
+  final String androidMessage = "Location access is required to initiate scans for Bluetooth devices. Please allow \'Duino\' to access location in your device\'s settings.";
   final bool showDefaultMessage;
   final bool showAndroidMessage;
 
@@ -24,15 +24,15 @@ class NoDeviceComponent extends StatelessWidget {
     switch (bluetoothState) {
       case BluetoothState.UNAUTHORIZED:
         message =
-            'Bluetooth permission denied. Please go to your device\'s settings and allow \'Duino\' to access bluetooth.';
+            'Bluetooth permission denied. Please go to your device\'s settings and allow \'Duino\' to access Bluetooth.';
         break;
       case BluetoothState.UNKNOWN:
         message = showDefaultMessage ?? false
             ? defaultMessage
-            : 'No devices discovered. Please make sure bluetooth is on and you have allowed \'Duino\' to access bluetooth in your device\'s settings.';
+            : 'No devices discovered. Please make sure Bluetooth is on and you have allowed \'Duino\' to access Bluetooth in your device\'s settings.';
         break;
       case BluetoothState.UNSUPPORTED:
-        message = 'Sorry, your device does not have bluetooth.';
+        message = 'Sorry, your device does not have Bluetooth.';
         break;
       case BluetoothState.POWERED_ON:
         message = showDefaultMessage ?? false
@@ -40,14 +40,14 @@ class NoDeviceComponent extends StatelessWidget {
             : 'No devices discovered.';
         break;
       case BluetoothState.POWERED_OFF:
-        message = 'Please turn on your device\'s bluetooth.';
+        message = 'Please turn on your device\'s Bluetooth.';
         break;
       case BluetoothState.RESETTING:
-        message = 'Please turn on your device\'s bluetooth.';
+        message = 'Please turn on your device\'s Bluetooth.';
         break;
       default:
         message =
-            'No devices discovered. Please make sure bluetooth is on and you have allowed \'Duino\' to access bluetooth in your device\'s settings.';
+            'No devices discovered. Please make sure Bluetooth is on and you have allowed \'Duino\' to access Bluetooth in your device\'s settings.';
     }
     if (isScanning) message = 'Scanning...';
     if (showAndroidMessage ?? false) message = androidMessage;

@@ -89,7 +89,7 @@ class ConnectProvider extends ChangeNotifier {
   /// Android only. Based on documentation.
   Future<void> _checkPermissions() async {
     if (Platform.isAndroid) {
-      if (await Permission.location.request().isGranted) {
+      if (! await Permission.location.request().isGranted) {
         return Future.error(Exception("Location permission not granted"));
       }
     }
