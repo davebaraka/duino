@@ -79,12 +79,10 @@ packages:
   flutter_ble_lib:
     dependency: "direct main"
     description:
-      path: "."
-      ref: develop
-      resolved-ref: "9ca6b54f824110e6cad10356db5fa209bc734fc9"
-      url: "git://github.com/Polidea/FlutterBleLib.git"
-    source: git
-    version: "2.2.3"
+      name: flutter_ble_lib
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter

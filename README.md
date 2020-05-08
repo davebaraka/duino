@@ -2,7 +2,7 @@
   <br>
   <img src="https://github.com/davebaraka/duino/blob/master/assets/git/featured.png" width="50%" height="25%" title="Duino Logo">
    <br>
-    Duino v0.0.1
+    Duino v0.0.2
    <br>
 </h1>
 
