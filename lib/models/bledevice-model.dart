@@ -15,14 +15,16 @@ class BleDevice {
         name = scanResult.name != "" ? scanResult.name : '(Unknown)',
         category = scanResult.category;
 
-  /// Returns the first characterisitic of the first service.
-  /// This successfully works on HM-10 Bluetooth Module.
-  /// May need to do something different for other BLE devices.
+  /// Gets the Service with FFE0 and characteristic with FFE1
+  /// This is defined in DSD Tech User Guide for HM-10
   Future<void> setCharacteristic() async {
     await peripheral.discoverAllServicesAndCharacteristics();
     List<Service> services = await peripheral.services();
-    List<Characteristic> characteristics = await services.first.characteristics();
-    characteristic = characteristics.first;
+    Service service = services.firstWhere(
+        (element) => element.uuid.toLowerCase().startsWith(RegExp(r'0*ffe0')));
+    List<Characteristic> characteristics = await service.characteristics();
+    characteristic = characteristics.firstWhere(
+        (element) => element.uuid.toLowerCase().startsWith(RegExp(r'0*ffe1')));
   }
 
   @override

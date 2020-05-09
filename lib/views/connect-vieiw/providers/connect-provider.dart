@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:device_info/device_info.dart';
 import 'package:duino/models/bledevice-model.dart';
 import 'package:duino/providers/bluetooth-provider.dart';
 import 'package:duino/views/connect-vieiw/components/device-component.dart';
@@ -87,9 +88,15 @@ class ConnectProvider extends ChangeNotifier {
   }
 
   /// Android only. Based on documentation.
+  /// We can only check runtime permissions on Android 6.0 and later
   Future<void> _checkPermissions() async {
     if (Platform.isAndroid) {
-      if (! await Permission.location.request().isGranted) {
+      AndroidDeviceInfo androidInfo =
+          await DeviceInfoPlugin().androidInfo.catchError((e) => print(e));
+      if (androidInfo != null && androidInfo.version.sdkInt < 23) {
+        return;
+      }
+      if (!await Permission.location.request().isGranted) {
         return Future.error(Exception("Location permission not granted"));
       }
     }
