@@ -93,10 +93,10 @@ class BluetoothProvider with ChangeNotifier {
             .timeout(Duration(seconds: 8));
       if (deviceStateSubscription != null)
         await deviceStateSubscription.cancel().timeout(Duration(seconds: 4));
-      bleDevice = null;
     } catch (e) {
       print(e);
     }
+    bleDevice = null;
     bleDeviceState = PeripheralConnectionState.disconnected;
     notify();
   }
@@ -106,7 +106,8 @@ class BluetoothProvider with ChangeNotifier {
     if ((bluetoothState == BluetoothState.POWERED_ON ||
             bluetoothState == BluetoothState.UNKNOWN) &&
         bleDeviceState == PeripheralConnectionState.connected) {
-      if (bleDevice.characteristic.isWritableWithoutResponse) {
+      if (bleDevice.characteristic.isWritableWithoutResponse ||
+          bleDevice.characteristic.isWritableWithResponse) {
         bleDevice.characteristic
             .write(utf8.encode(data), false)
             .catchError((e) => print(e));

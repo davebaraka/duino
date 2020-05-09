@@ -2,7 +2,7 @@
   <br>
   <img src="https://github.com/davebaraka/duino/blob/master/assets/git/featured.png" width="50%" height="25%" title="Duino Logo">
    <br>
-    Duino v0.0.3
+    Duino v0.0.4
    <br>
 </h1>
 
@@ -25,11 +25,11 @@ Control an Arduino using your phone's Bluetooth. Duino is available on both <a h
 
 ### Requirements
 
-* Mobile device running at least iOS 8.0 or android 4.4
+* Mobile device running at least iOS 8.0 or android 4.4 (There may be an issue with [iPhone X](https://github.com/Polidea/FlutterBleLib/issues/458) and [android 4.4.4](https://github.com/Polidea/FlutterBleLib/issues/424))
 * [HM-10 Bluetooth 4.0 LE Module](https://www.amazon.com/gp/product/B074VXZ1XZ/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
 * Arduino board (Ex. Arduino Uno)
 
-Similar configurations and devices may work. Please read your device's documentation before continuing. The setup used in this guide includes an iPhone XR, an Arduino Uno, and a HM-10 Bluetooth module. For more information, please see [Limitations](https://github.com/davebaraka/duino#limitations).
+Similar configurations and devices may work. Please read your device's documentation before continuing. The setup used in this guide includes an iPhone XR, an Arduino Uno, and a HM-10 Bluetooth module from DSD Tech. For more information, please see [Limitations](https://github.com/davebaraka/duino#limitations).
 
 ### Setup
 
@@ -118,9 +118,9 @@ Android devices that do not support bluetooth low energy will not be able to dow
 
 The Bluetooth library used in the application only supports Bluetooth low energy devices. There are other Bluetooth libraries, ones that support Bluetooth classic, though Duino focuses on relatively modern devices and protocols.
 
-Bluetooth LE devices have a list services and each service has a list of characteristics that we can read, write, and notify. There is a lot more going on and you can read more about it [here](https://www.bluetooth.com/blog/a-developers-guide-to-bluetooth/). For the HM-10 Bluetooth module, it just so happens that it has one service, and that service has one characteristic. Duino writes to this characteristic. If you are trying to connect a Bluetooth device that has multiple services and or characteristics, Duino may not act properly, because it connects to the first characteristic of the first service as written [here](https://github.com/davebaraka/duino/blob/0f5fa6b23aba9bdd42250b2ee2da88cfd5525dc8/lib/models/bledevice-model.dart#L21).
+Bluetooth LE devices have a list services and each service has a list of characteristics. There is a lot more going on and you can read more about it [here](https://www.bluetooth.com/blog/a-developers-guide-to-bluetooth/). Duino only connects to Bluetooth devices with service UUID: `FFE0` and characteristic UUID: `FFE1`, as specified by the HM-10 Bluetooth module from DSD Tech. Code [here](https://github.com/davebaraka/duino/blob/0f5fa6b23aba9bdd42250b2ee2da88cfd5525dc8/lib/models/bledevice-model.dart#L20).
 
-The Arduino has a limited buffer size to temporarily store serial data. For the joystick and tilt pad, I have set it to emit data at least every `75ms`. Even at `50ms`, the Arduino is able to successfully capture all the incoming data. A program you write may take processing time that could overflow the buffer, and as a result you will miss data points. This is more of a concern for the joystick, as it does not continuously emit data. There are several ways this can be minimized or overcame. That's up to you. Currently, there is no way to adjust the delay in the app.
+The Arduino Uno has a limited buffer size to temporarily store serial data. For the joystick and tilt pad, I have set it to emit data at least every `75ms`. Even at `50ms`, the Arduino is able to successfully capture all the incoming data. A program you write may take processing time that could overflow the buffer, and as a result you will miss data points. This is more of a concern for the joystick, as it does not continuously emit data. There are several ways this can be minimized or overcame. That's up to you. Currently, there is no way to adjust the delay in the app.
 
 There may be a time (probably not if I did my job well) where the Bluetooth module may be in the connected state, but Duino says that no device is connected. Simply, restart the application and/or Duino, so that both devices disconnect and then pair again.
 
@@ -150,7 +150,7 @@ My main focus for this application was to create a simple and easy-to-use interf
 * Attempt to build it.
 * Realizing...
 * Attempt to build it.
-* Test, publish, and document.
+* Test, publish, and document. (There was a lot of testing, fixing, testing, fixing...)
 
 The app was intended to act more like virtual hardware that an Arduino could use. That is why there isn't much feedback in the app when it comes to the emitted data from the application. For instance, when you use the tilt pad, there is no start or stop button and there is no way to see the data being sent on your mobile device. I was aiming for a plug and play interaction, where a user would focus their efforts on using the app as a tool and spend most of their time creating programs for the Arduino. Additionally, when it comes to similar applications, Duino aims to be as transparent as possible. Duino does not rely on third party software on the Arduino and Duino is open source. This gives users absolute control on how to interpret the data and make desired modifications.
 
